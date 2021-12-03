@@ -26,7 +26,7 @@ local sw, sh = getScreenResolution()
 local women = imgui.ImBool(false)
 
 local script_vers = 3
-local script_vers_text = "3.0"
+local script_vers_text = "3.1"
 
 local update_url = "https://raw.githubusercontent.com/KevinMcWood/bindcnn/main/update.ini" -- тут тоже свою ссылку
 local update_path = getWorkingDirectory() .. "/update.ini" -- и тут свою ссылку
@@ -213,7 +213,7 @@ function imgui.OnDrawFrame()
 		imgui.Checkbox(u8"Женские отыгровки", women)
 	end
 	if imgui.CollapsingHeader(u8"Команды") then
-		imgui.Text(u8"/bmenu - меню скрипта\n/invv - отыгровка принятия игрока"
+		imgui.Text(u8"/bmenu - меню скрипта\n/invv - отыгровка принятия игрока\nRalph лох")
 	end
 	if imgui.CollapsingHeader(u8"Лекции") then
 		if imgui.Button(u8'Лекция 1 - Спец.Рация', imgui.ImVec2(150, 30)) then
