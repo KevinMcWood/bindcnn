@@ -28,10 +28,10 @@ local women = imgui.ImBool(false)
 local script_vers = 1
 local script_vers_text = "1.00"
 
-local update_url = "https://raw.githubusercontent.com/KevinMcWood/bindcnn/main/update.ini" -- С‚СѓС‚ С‚РѕР¶Рµ СЃРІРѕСЋ СЃСЃС‹Р»РєСѓ
-local update_path = getWorkingDirectory() .. "/update.ini" -- Рё С‚СѓС‚ СЃРІРѕСЋ СЃСЃС‹Р»РєСѓ
+local update_url = "https://raw.githubusercontent.com/KevinMcWood/bindcnn/main/update.ini" -- тут тоже свою ссылку
+local update_path = getWorkingDirectory() .. "/update.ini" -- и тут свою ссылку
 
-local script_url = "https://raw.githubusercontent.com/KevinMcWood/bindcnn/main/BindCNN10.lua" -- С‚СѓС‚ СЃРІРѕСЋ СЃСЃС‹Р»РєСѓ
+local script_url = "https://raw.githubusercontent.com/KevinMcWood/bindcnn/main/BindCNN10.lua" -- тут свою ссылку
 local script_path = thisScript().path
 
 function main()
@@ -40,7 +40,7 @@ function main()
 
 	health = getCharHealth(PLAYER_PED)
 
-	sampAddChatMessage("Р‘РёРЅРґРµСЂ РґР»СЏ CNN", main_color)
+	sampAddChatMessage("Биндер для CNN", main_color)
 
 	sampRegisterChatCommand("bmenu", cmd_bmenu)
 	sampRegisterChatCommand("invv", invv)
@@ -57,7 +57,7 @@ function main()
         if status == dlstatus.STATUS_ENDDOWNLOADDATA then
             updateIni = inicfg.load(nil, update_path)
             if tonumber(updateIni.info.vers) > script_vers then
-                sampAddChatMessage("Р•СЃС‚СЊ РѕР±РЅРѕРІР»РµРЅРёРµ! Р’РµСЂСЃРёСЏ: " .. updateIni.info.vers_text, -1)
+                sampAddChatMessage("Есть обновление! Версия: " .. updateIni.info.vers_text, -1)
                 update_state = true
             end
 			os.remove(update_path)
@@ -77,7 +77,7 @@ function main()
 		if update_state then
             downloadUrlToFile(script_url, script_path, function(id, status)
                 if status == dlstatus.STATUS_ENDDOWNLOADDATA then
-                    sampAddChatMessage("РЎРєСЂРёРїС‚ СѓСЃРїРµС€РЅРѕ РѕР±РЅРѕРІР»РµРЅ!", -1)
+                    sampAddChatMessage("Скрипт успешно обновлен!", -1)
                     thisScript():reload()
                 end
             end)
@@ -102,107 +102,107 @@ function invv(arg)
 
 	lua_thread.create(function ()
 	if not women.v == true then
-		sampSendChat("Р—РґСЂР°РІСЃС‚РІСѓР№С‚Рµ, РІС‹ РїСЂРёС€Р»Рё Рє РЅР°Рј РЅР° СЃРѕР±РµСЃРµРґРѕРІР°РЅРёРµ?")
+		sampSendChat("Здравствуйте, вы пришли к нам на собеседование?")
 		wait(2000)
-		sampAddChatMessage("Р”Р»СЏ РїСЂРѕРґРѕР»Р¶РµРЅРёСЏ РЅР°Р¶РјРёС‚Рµ -1; Р”Р»СЏ РѕС‚РјРµС‚С‹ РЅР°Р¶РјРёС‚Рµ - 2", 0xFF8C00)
+		sampAddChatMessage("Для продолжения нажмите -1; Для отметы нажмите - 2", 0xFF8C00)
 		wait(2000)
 		repeat
 		wait(10)
     	if isKeyJustPressed(VK_2) then
-			sampAddChatMessage("РЈСЃРїРµС€РЅРѕ РѕС‚РјРµРЅРµРЅРѕ", main_color)
+			sampAddChatMessage("Успешно отменено", main_color)
     	return
     	end
 		until isKeyJustPressed(VK_1)
-    	sampSendChat("РҐРѕСЂРѕС€Рѕ, РїРѕРєР°Р¶РёС‚Рµ РІР°С€Рё РґРѕРєСѓРјРµРЅС‚С‹, Р° РёРјРµРЅРЅРѕ: РїР°СЃРїРѕСЂС‚, РјРµРґ.РєР°СЂС‚Сѓ Рё Р»РёС†РµРЅР·РёРё")
+    	sampSendChat("Хорошо, покажите ваши документы, а именно: паспорт, мед.карту и лицензии")
 		wait(2000)
 		sampSendChat("/n /showpass " ..id.. " | /showmc " ..id.. " | /showlic " ..id)
 		wait(2000)
-		sampAddChatMessage("Р”Р»СЏ РїСЂРѕРґРѕР»Р¶РµРЅРёСЏ РЅР°Р¶РјРёС‚Рµ -1; Р”Р»СЏ РѕС‚РјРµС‚С‹ РЅР°Р¶РјРёС‚Рµ - 2", 0xFF8C00)
+		sampAddChatMessage("Для продолжения нажмите -1; Для отметы нажмите - 2", 0xFF8C00)
 		wait(2000)
 		repeat
 		wait(10)
     	if isKeyJustPressed(VK_2) then
-			sampAddChatMessage("РЈСЃРїРµС€РЅРѕ РѕС‚РјРµРЅРµРЅРѕ", main_color)
+			sampAddChatMessage("Успешно отменено", main_color)
     	return
     	end
 		until isKeyJustPressed(VK_1)
-		sampSendChat("/me Р°РєРєСѓСЂР°С‚РЅС‹Рј РґРІРёР¶РµРЅРёРµРј СЂСѓРєРё РІР·СЏР» РґРѕРєСѓРјРµРЅС‚С‹ Сѓ С‡РµР»РѕРІРµРєР° РЅР°РїСЂРѕС‚РёРІ")
+		sampSendChat("/me аккуратным движением руки взял документы у человека напротив")
 		wait(2000)
-		sampSendChat("/todo РўР°Рє, С…РѕСЂРѕС€Рѕ, СЌС‚Рѕ РµСЃС‚СЊ...*РѕСЃРјРѕС‚СЂРµРІ РґРѕРєСѓРјРµРЅС‚С‹")
+		sampSendChat("/todo Так, хорошо, это есть...*осмотрев документы")
 		wait(2000)
-		sampSendChat("/me Р°РєРєСѓСЂР°С‚РЅС‹Рј РґРІРёР¶РµРЅРёРµРј СЂСѓРєРё РІРµСЂРЅСѓР» РґРѕРєСѓРјРµРЅС‚С‹ С‡РµР»РѕРІРµРєСѓ РЅР°РїСЂРѕС‚РёРІ")
+		sampSendChat("/me аккуратным движением руки вернул документы человеку напротив")
 		wait(2000)
-		sampAddChatMessage("РџРѕРґС…РѕРґРёС‚ - 1; РќРµ РїРѕРґС…РѕРґРёС‚ - 2", 0xFF8C00)
+		sampAddChatMessage("Подходит - 1; Не подходит - 2", 0xFF8C00)
 		wait(2000)
 		repeat
 		wait(10)
     	if isKeyJustPressed(VK_2) then
-			sampSendChat("Рљ СЃРѕР¶Р°Р»РµРЅРёСЋ, Р’С‹ РЅР°Рј РЅРµ РїРѕРґС…РѕРґРёС‚Рµ.")
+			sampSendChat("К сожалению, Вы нам не подходите.")
     	return
     	end
 		until isKeyJustPressed(VK_1)
-		sampSendChat("РћС‚Р»РёС‡РЅРѕ. Р’С‹ РЅР°Рј РїРѕРґС…РѕРґРёС‚Рµ. РЎРµР№С‡Р°СЃ СЏ РІС‹РґР°Рј Р’Р°Рј С„РѕСЂРјСѓ Рё РєР»СЋС‡ РѕС‚ С€РєР°С„С‡РёРєР°")
+		sampSendChat("Отлично. Вы нам подходите. Сейчас я выдам Вам форму и ключ от шкафчика")
 		wait(2000)
-		sampSendChat("/me РїР»Р°РІРЅРѕ РЅР°РєР»РѕРЅРёР»СЃСЏ РІ СЃС‚РѕСЂРѕРЅСѓ СЏС‰РёРєР° РѕС‚ СЃС‚РѕР№РєРё Рё РїСЂРёРѕС‚РєСЂС‹РІ РµРіРѕ...")
+		sampSendChat("/me плавно наклонился в сторону ящика от стойки и приоткрыв его...")
 		wait(2000)
-		sampSendChat("/me ...РІР·СЏР» С„РѕСЂРјСѓ Рё РєР»СЋС‡ РЅРѕРјРµСЂ " ..idpl)
+		sampSendChat("/me ...взял форму и ключ номер " ..idpl)
 		wait(2000)
-		sampSendChat("РЈРґР°С‡РЅРѕР№ Р’Р°Рј СЂР°Р±РѕС‚С‹!")
+		sampSendChat("Удачной Вам работы!")
 		end
 
 	if not women.v == false then
-		sampSendChat("Р—РґСЂР°РІСЃС‚РІСѓР№С‚Рµ, РІС‹ РїСЂРёС€Р»Рё Рє РЅР°Рј РЅР° СЃРѕР±РµСЃРµРґРѕРІР°РЅРёРµ?")
+		sampSendChat("Здравствуйте, вы пришли к нам на собеседование?")
 		wait(2000)
-		sampAddChatMessage("Р”Р»СЏ РїСЂРѕРґРѕР»Р¶РµРЅРёСЏ РЅР°Р¶РјРёС‚Рµ -1; Р”Р»СЏ РѕС‚РјРµС‚С‹ РЅР°Р¶РјРёС‚Рµ - 2", 0xFF8C00)
+		sampAddChatMessage("Для продолжения нажмите -1; Для отметы нажмите - 2", 0xFF8C00)
 		wait(2000)
 		repeat
 		wait(10)
     	if isKeyJustPressed(VK_2) then
-			sampAddChatMessage("РЈСЃРїРµС€РЅРѕ РѕС‚РјРµРЅРµРЅРѕ", main_color)
+			sampAddChatMessage("Успешно отменено", main_color)
     	return
     	end
 		until isKeyJustPressed(VK_1)
-    	sampSendChat("РҐРѕСЂРѕС€Рѕ, РїРѕРєР°Р¶РёС‚Рµ РІР°С€Рё РґРѕРєСѓРјРµРЅС‚С‹, Р° РёРјРµРЅРЅРѕ: РїР°СЃРїРѕСЂС‚, РјРµРґ.РєР°СЂС‚Сѓ Рё Р»РёС†РµРЅР·РёРё")
+    	sampSendChat("Хорошо, покажите ваши документы, а именно: паспорт, мед.карту и лицензии")
 		wait(2000)
 		sampSendChat("/n /showpass " ..id.. " | /showmc " ..id.. " | /showlic " ..id)
 		wait(2000)
-		sampAddChatMessage("Р”Р»СЏ РїСЂРѕРґРѕР»Р¶РµРЅРёСЏ РЅР°Р¶РјРёС‚Рµ -1; Р”Р»СЏ РѕС‚РјРµС‚С‹ РЅР°Р¶РјРёС‚Рµ - 2", 0xFF8C00)
+		sampAddChatMessage("Для продолжения нажмите -1; Для отметы нажмите - 2", 0xFF8C00)
 		wait(2000)
 		repeat
 		wait(10)
     	if isKeyJustPressed(VK_2) then
-			sampAddChatMessage("РЈСЃРїРµС€РЅРѕ РѕС‚РјРµРЅРµРЅРѕ", main_color)
+			sampAddChatMessage("Успешно отменено", main_color)
     	return
     	end
 		until isKeyJustPressed(VK_1)
-		sampSendChat("/me Р°РєРєСѓСЂР°С‚РЅС‹Рј РґРІРёР¶РµРЅРёРµРј СЂСѓРєРё РІР·СЏР»Р° РґРѕРєСѓРјРµРЅС‚С‹ Сѓ С‡РµР»РѕРІРµРєР° РЅР°РїСЂРѕС‚РёРІ")
+		sampSendChat("/me аккуратным движением руки взяла документы у человека напротив")
 		wait(2000)
-		sampSendChat("/todo РўР°Рє, С…РѕСЂРѕС€Рѕ, СЌС‚Рѕ РµСЃС‚СЊ...*РѕСЃРјРѕС‚СЂРµРІ РґРѕРєСѓРјРµРЅС‚С‹")
+		sampSendChat("/todo Так, хорошо, это есть...*осмотрев документы")
 		wait(2000)
-		sampSendChat("/me Р°РєРєСѓСЂР°С‚РЅС‹Рј РґРІРёР¶РµРЅРёРµРј СЂСѓРєРё РІРµСЂРЅСѓР»Р° РґРѕРєСѓРјРµРЅС‚С‹ С‡РµР»РѕРІРµРєСѓ РЅР°РїСЂРѕС‚РёРІ")
+		sampSendChat("/me аккуратным движением руки вернула документы человеку напротив")
 		wait(2000)
-		sampAddChatMessage("РџРѕРґС…РѕРґРёС‚ - 1; РќРµ РїРѕРґС…РѕРґРёС‚ - 2", 0xFF8C00)
+		sampAddChatMessage("Подходит - 1; Не подходит - 2", 0xFF8C00)
 		wait(2000)
 		repeat
 		wait(10)
     	if isKeyJustPressed(VK_2) then
-			sampSendChat("Рљ СЃРѕР¶Р°Р»РµРЅРёСЋ, Р’С‹ РЅР°Рј РЅРµ РїРѕРґС…РѕРґРёС‚Рµ.")
+			sampSendChat("К сожалению, Вы нам не подходите.")
     	return
     	end
 		until isKeyJustPressed(VK_1)
-		sampSendChat("РћС‚Р»РёС‡РЅРѕ. Р’С‹ РЅР°Рј РїРѕРґС…РѕРґРёС‚Рµ. РЎРµР№С‡Р°СЃ СЏ РІС‹РґР°Рј Р’Р°Рј С„РѕСЂРјСѓ Рё РєР»СЋС‡ РѕС‚ С€РєР°С„С‡РёРєР°")
+		sampSendChat("Отлично. Вы нам подходите. Сейчас я выдам Вам форму и ключ от шкафчика")
 		wait(2000)
-		sampSendChat("/me РїР»Р°РІРЅРѕ РЅР°РєР»РѕРЅРёР»Р°СЃСЊ РІ СЃС‚РѕСЂРѕРЅСѓ СЏС‰РёРєР° РѕС‚ СЃС‚РѕР№РєРё Рё РїСЂРёРѕС‚РєСЂС‹РІ РµРіРѕ...")
+		sampSendChat("/me плавно наклонилась в сторону ящика от стойки и приоткрыв его...")
 		wait(2000)
-		sampSendChat("/me ...РІР·СЏР»Р° С„РѕСЂРјСѓ Рё РєР»СЋС‡ РЅРѕРјРµСЂ " ..idpl)
+		sampSendChat("/me ...взяла форму и ключ номер " ..idpl)
 		wait(2000)
-		sampSendChat("РЈРґР°С‡РЅРѕР№ Р’Р°Рј СЂР°Р±РѕС‚С‹!")
+		sampSendChat("Удачной Вам работы!")
 	end
 	end)
 end
 
 function cmd_update(arg)
-    sampShowDialog(1000, "РђРІС‚РѕРѕР±РЅРѕРІР»РµРЅРёРµ v2.0", "{FFFFFF}Р­С‚Рѕ СѓСЂРѕРє РїРѕ РѕР±РЅРѕРІР»РµРЅРёСЋ\n{FFF000}РќРѕРІР°СЏ РІРµСЂСЃРёСЏ", "Р—Р°РєСЂС‹С‚СЊ", "", 0)
+    sampShowDialog(1000, "Автообновление v2.0", "{FFFFFF}Это урок по обновлению\n{FFF000}Новая версия", "Закрыть", "", 0)
 end
 
 function imgui.OnDrawFrame()
@@ -210,55 +210,55 @@ function imgui.OnDrawFrame()
 	imgui.SetNextWindowPos(imgui.ImVec2(sw / 2, sh / 2), imgui.Cond.FirstUseEver, imgui.ImVec2(0.5, 0.5))
   	imgui.SetNextWindowSize(imgui.ImVec2(600, 600), imgui.Cond.FirstUseEver)
 	imgui.Begin(u8"BindCNN", main_window_state, imgui.WindowFlags.NoResize + imgui.WindowFlags.NoCollapse)
-	imgui.TextColored(imgui.ImVec4(0, 1, 0, 1), u8'Р’РµСЂСЃРёСЏ: ')
-	if imgui.CollapsingHeader(u8"Р“Р»Р°РІРЅРѕРµ РјРµРЅСЋ") then
-		imgui.Text(u8"Р’Р°С€ РЅРёРє: " ..nick.. "[" ..id.. "]")
-		imgui.Checkbox(u8"Р–РµРЅСЃРєРёРµ РѕС‚С‹РіСЂРѕРІРєРё", women)
+	imgui.TextColored(imgui.ImVec4(0, 1, 0, 1), u8'Версия: ')
+	if imgui.CollapsingHeader(u8"Главное меню") then
+		imgui.Text(u8"Ваш ник: " ..nick.. "[" ..id.. "]")
+		imgui.Checkbox(u8"Женские отыгровки", women)
 	end
-	if imgui.CollapsingHeader(u8"Р›РµРєС†РёРё") then
-		if imgui.Button(u8'Р›РµРєС†РёСЏ 1 - РЎРїРµС†.Р Р°С†РёСЏ', imgui.ImVec2(150, 30)) then
+	if imgui.CollapsingHeader(u8"Лекции") then
+		if imgui.Button(u8'Лекция 1 - Спец.Рация', imgui.ImVec2(150, 30)) then
 			lua_thread.create(function ()
-				sampSendChat("/r Р—РґСЂР°РІСЃС‚РІСѓР№С‚Рµ, РґРѕСЂРѕРіРёРµ РєРѕР»Р»РµРіРё!")
+				sampSendChat("/r Здравствуйте, дорогие коллеги!")
 				wait(2000)
-				sampSendChat("/r РЎРµР№С‡Р°СЃ СЏ С…РѕС‡Сѓ РІР°Рј СЂР°СЃСЃРєР°Р·Р°С‚СЊ Рѕ РЅР°С€РµР№ 'РЎРїРµС† СЂР°С†РёРё Р”РёСЃРєРѕСЂРґ'.")
+				sampSendChat("/r Сейчас я хочу вам рассказать о нашей 'Спец рации Дискорд'.")
 				wait(2000)
-				sampSendChat("/r Р”Р°РЅРЅР°СЏ СЃРїРµС†. СЂР°С†РёСЏ РЅСѓР¶РЅР° РЅСѓР¶РЅР° Р°Р±СЃРѕР»СЋС‚РЅРѕ РІСЃРµРј СЃРѕС‚СЂСѓРґРЅРёРєР°Рј, РІРєР»СЋС‡Р°СЏ Рё СЃС‚Р°Р¶С‘СЂРѕРІ.")
+				sampSendChat("/r Данная спец. рация нужна нужна абсолютно всем сотрудникам, включая и стажёров.")
 				wait(2000)
-				sampSendChat("/r РћРЅР° РїСЂРµРґРЅР°Р·РЅР°С‡РµРЅР° РґР»СЏ Р±С‹СЃС‚СЂРѕР№ РїРµСЂРµРґР°С‡Рё РёРЅС„РѕСЂРјР°С†РёРё РјРµР¶РґСѓ СЃРѕС‚СЂСѓРґРЅРёРєР°РјРё")
+				sampSendChat("/r Она предназначена для быстрой передачи информации между сотрудниками")
 				wait(2000)
-				sampSendChat("/r РўР°Рє-Р¶Рµ РїРѕРґРєР»СЋС‡РёС‚СЊ РµС‘ РѕС‡РµРЅСЊ РїСЂРѕСЃС‚Рѕ")
+				sampSendChat("/r Так-же подключить её очень просто")
 				wait(2000)
-				sampSendChat("/rb Р’СЃРµ РѕС‡РµРЅСЊ РїСЂРѕСЃС‚Рѕ! Р”Р»СЏ С‚РµС… Сѓ РєРѕРіРѕ РЅРµС‚Сѓ - https://discord.gg/brainburg")
+				sampSendChat("/rb Все очень просто! Для тех у кого нету - https://discord.gg/brainburg")
 				wait(2000)
-				sampSendChat("/rb Р”РµР»Р°РµРј РЅРёРє РїРѕ С„РѕСЂРјРµ [CNN LS][1] Nick_Name")
+				sampSendChat("/rb Делаем ник по форме [CNN LS][1] Nick_Name")
 				wait(2000)
-				sampSendChat("/rb РїРёС€РµРј РІ РєР°РЅР°Р» #Р·Р°РїСЂРѕСЃ-СЂРѕР»Рё Рё РЅР°Р¶РёРјР°РµРј РєРЅРѕРїРєСѓ 'Р—Р°РїСЂРѕСЃРёС‚СЊ СЂРѕР»СЊ РѕСЂРіР°РЅРёР·Р°С†РёРё'")
+				sampSendChat("/rb пишем в канал #запрос-роли и нажимаем кнопку 'Запросить роль организации'")
 				wait(2000)
-				sampSendChat("/rb РїРѕСЃР»Рµ С‚РѕРіРѕ РєР°Рє РІР°Рј РІС‹РґР°РґСѓС‚ СЂРѕР»СЊ Р»РёСЃС‚Р°РµРј РЅРёР¶Рµ Рё РїРѕРґРєР»СЋС‡Р°РµРјСЃСЏ РІ РєР°РЅР°Р» РЎРњР | LVFM")
+				sampSendChat("/rb после того как вам выдадут роль листаем ниже и подключаемся в канал СМИ | LVFM")
 				wait(2000)
 			end)
 		end
-		if imgui.Button(u8'Р›РµРєС†РёСЏ 2 - РЎСѓР±РѕСЂРґРёРЅР°С†РёСЏ', imgui.ImVec2(150, 30)) then
+		if imgui.Button(u8'Лекция 2 - Субординация', imgui.ImVec2(150, 30)) then
 			lua_thread.create(function ()
-				sampSendChat("Р—РґСЂР°РІСЃС‚РІСѓР№С‚Рµ, РґРѕСЂРѕРіРёРµ РєРѕР»Р»РµРіРё!")
+				sampSendChat("Здравствуйте, дорогие коллеги!")
 				wait(2000)
-				sampSendChat("РЎРµР№С‡Р°СЃ СЏ РїСЂРѕРІРµРґСѓ Р»РµРєС†РёСЋ РЅР° С‚РµРјСѓ 'РЎСѓР±РѕСЂРґРёРЅР°С†РёСЏ'.")
+				sampSendChat("Сейчас я проведу лекцию на тему 'Субординация'.")
 				wait(2000)
-				sampSendChat("РЎСѓР±РѕСЂРґРёРЅР°С†РёСЏ - СЌС‚Рѕ РїСЂР°РІРёР»Рѕ РѕР±С‰РµРЅРёСЏ РјРµР¶РґСѓ Р»СЋРґСЊРјРё")
+				sampSendChat("Субординация - это правило общения между людьми")
 				wait(2000)
-				sampSendChat("Р’ РЅР°С€РµРј СЂР°РґРёРѕС†РµРЅС‚СЂРµ РѕР±С‰РµРЅРёРµ СЃС‚СЂРѕРіРѕ РЅР° Р’С‹!")
+				sampSendChat("В нашем радиоцентре общение строго на Вы!")
 				wait(2000)
-				sampSendChat("Р’С‹ РѕР±СЏР·Р°РЅС‹ СЃ РѕР±С‰Р°С‚СЊСЃСЏ СЃ РїРѕСЃРµС‚РёС‚РµР»СЏРјРё СЂР°РґРёРѕС†РµРЅС‚СЂР°РјРё СѓРІР°Р¶РёС‚РµР»СЊРЅРѕ.")
+				sampSendChat("Вы обязаны с общаться с посетителями радиоцентрами уважительно.")
 				wait(2000)
-				sampSendChat("РЎ РєРѕР»Р»РµРіР°РјРё РІС‹ С‚Р°Рє Р¶Рµ РѕР±СЏР·Р°РЅС‹ РѕС‚РЅРѕСЃРёС‚СЊСЃСЏ РЅР° Р’С‹")
+				sampSendChat("С коллегами вы так же обязаны относиться на Вы")
 				wait(2000)
-				sampSendChat("РќР° СЌС‚РѕРј Р»РµРєС†РёСЏ РЅР° С‚РµРјСѓ 'РЎСѓР±РѕСЂРґРёРЅР°С†РёСЏ' РѕРєРѕРЅС‡РµРЅР°")
+				sampSendChat("На этом лекция на тему 'Субординация' окончена")
 				wait(2000)
 			end)
 		end
 	end
 	
-	imgui.BeginChild('РўРµСЃС‚', imgui.ImVec2(200, 175), true)
+	imgui.BeginChild('Тест', imgui.ImVec2(200, 175), true)
 		for i, value in ipairs(themes.colorThemes) do
 			if imgui.RadioButton(value, checked_radio, i) then
 				themes.SwitchColorThemes(i)
@@ -266,7 +266,7 @@ function imgui.OnDrawFrame()
 		end
 	imgui.EndChild()
 
-	if imgui.Button(u8"РџРµСЂРµР·Р°РіСЂСѓР·РёС‚СЊ СЃРєСЂРёРїС‚", imgui.ImVec2(145,58)) then
+	if imgui.Button(u8"Перезагрузить скрипт", imgui.ImVec2(145,58)) then
 		thisScript():reload()
 	end
 	imgui.End()
