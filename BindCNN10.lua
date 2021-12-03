@@ -25,8 +25,8 @@ local text_buffer = imgui.ImBuffer(256)
 local sw, sh = getScreenResolution()
 local women = imgui.ImBool(false)
 
-local script_vers = 3
-local script_vers_text = "3.1"
+local script_vers = 4
+local script_vers_text = "4.1"
 
 local update_url = "https://raw.githubusercontent.com/KevinMcWood/bindcnn/main/update.ini" -- тут тоже свою ссылку
 local update_path = getWorkingDirectory() .. "/update.ini" -- и тут свою ссылку
