@@ -9,11 +9,6 @@ local imgui = require "imgui"
 local encoding = require "encoding"
 encoding.default = 'CP1251'
 u8 = encoding.UTF8
-local rkeys = require 'rkeys'
-imgui.ToggleButton = require('imgui_addons').ToggleButton
-imgui.HotKey = require('imgui_addons').HotKey
-imgui.Spinner = require('imgui_addons').Spinner
-imgui.BufferingBar = require('imgui_addons').BufferingBar
 
 update_state = false
 
@@ -29,16 +24,14 @@ local main_window_state = imgui.ImBool(false)
 local text_buffer = imgui.ImBuffer(256)
 local sw, sh = getScreenResolution()
 local women = imgui.ImBool(false)
-toggle_status = imgui.ImBool(false)
-toggle_status_1 = imgui.ImBool(false)
 
-local script_vers = 5.2.1
-local script_vers_text = "5.2.1"
+local script_vers = 3
+local script_vers_text = "3.0"
 
-local update_url = "https://raw.githubusercontent.com/KevinMcWood/bindcnn/main/update.ini" 
-local update_path = getWorkingDirectory() .. "/update.ini" 
+local update_url = "https://raw.githubusercontent.com/KevinMcWood/bindcnn/main/update.ini" -- тут тоже свою ссылку
+local update_path = getWorkingDirectory() .. "/update.ini" -- и тут свою ссылку
 
-local script_url = "https://raw.githubusercontent.com/KevinMcWood/bindcnn/main/BindCNN10.lua"
+local script_url = "https://raw.githubusercontent.com/KevinMcWood/bindcnn/main/BindCNN10.lua" -- тут свою ссылку
 local script_path = thisScript().path
 
 function main()
@@ -47,9 +40,7 @@ function main()
 
 	health = getCharHealth(PLAYER_PED)
 
-	sampAddChatMessage("[BindCNN] Биндер для CNN", main_color)
-	sampAddChatMessage("[BindCNN] /bmenu - меню скрипта", main_color)
-	sampAddChatMessage("[BindCNN] Создано специально для Brainburg", main_color)
+	sampAddChatMessage("Биндер для CNN", main_color)
 
 	sampRegisterChatCommand("bmenu", cmd_bmenu)
 	sampRegisterChatCommand("invv", invv)
@@ -75,7 +66,7 @@ function main()
 
 	while true do
 		wait(0)
-		
+
 		_, id = sampGetPlayerIdByCharHandle(PLAYER_PED)
 		nick = sampGetPlayerNickname(id)
 
@@ -103,21 +94,6 @@ end
 
 function clearchat(arg)
 	sampAddChatMessage("   ", -1)
-	sampAddChatMessage("   ", -1)
-	sampAddChatMessage("   ", -1)
-	sampAddChatMessage("   ", -1)
-	sampAddChatMessage("   ", -1)
-	sampAddChatMessage("   ", -1)
-	sampAddChatMessage("   ", -1)
-	sampAddChatMessage("   ", -1)
-	sampAddChatMessage("   ", -1)
-	sampAddChatMessage("   ", -1)
-	sampAddChatMessage("   ", -1)
-	sampAddChatMessage("   ", -1)
-	sampAddChatMessage("   ", -1)
-	sampAddChatMessage("   ", -1)
-	sampAddChatMessage("   ", -1)
-	sampAddChatMessage("   ", -1)
 end
 
 function invv(arg)
@@ -125,103 +101,103 @@ function invv(arg)
 	local _, idpl = sampGetPlayerIdByCharHandle(ped)
 
 	lua_thread.create(function ()
-		if not women.v == true then
-			sampSendChat("Здравствуйте, вы пришли к нам на собеседование?")
-			wait(2000)
-			sampAddChatMessage("Для продолжения нажмите -1; Для отметы нажмите - 2", 0xFF8C00)
-			wait(2000)
-			repeat
-			wait(10)
-			if isKeyJustPressed(VK_2) then
-				sampAddChatMessage("Успешно отменено", main_color)
-			return
-			end
-			until isKeyJustPressed(VK_1)
-			sampSendChat("Хорошо, покажите ваши документы, а именно: паспорт, мед.карту и лицензии")
-			wait(2000)
-			sampSendChat("/n /showpass " ..id.. " | /showmc " ..id.. " | /showlic " ..id)
-			wait(2000)
-			sampAddChatMessage("Для продолжения нажмите -1; Для отметы нажмите - 2", 0xFF8C00)
-			wait(2000)
-			repeat
-			wait(10)
-			if isKeyJustPressed(VK_2) then
-				sampAddChatMessage("Успешно отменено", main_color)
-			return
-			end
-			until isKeyJustPressed(VK_1)
-			sampSendChat("/me аккуратным движением руки взял документы у человека напротив")
-			wait(2000)
-			sampSendChat("/todo Так, хорошо, это есть...*осмотрев документы")
-			wait(2000)
-			sampSendChat("/me аккуратным движением руки вернул документы человеку напротив")
-			wait(2000)
-			sampAddChatMessage("Подходит - 1; Не подходит - 2", 0xFF8C00)
-			wait(2000)
-			repeat
-			wait(10)
-			if isKeyJustPressed(VK_2) then
-				sampSendChat("К сожалению, Вы нам не подходите.")
-			return
-			end
-			until isKeyJustPressed(VK_1)
-			sampSendChat("Отлично. Вы нам подходите. Сейчас я выдам Вам форму и ключ от шкафчика")
-			wait(2000)
-			sampSendChat("/me плавно наклонился в сторону ящика от стойки и приоткрыв его...")
-			wait(2000)
-			sampSendChat("/me ...взял форму и ключ номер " ..idpl)
-			wait(2000)
-			sampSendChat("Удачной Вам работы!")
-			end
-	
-		if not women.v == false then
-			sampSendChat("Здравствуйте, вы пришли к нам на собеседование?")
-			wait(2000)
-			sampAddChatMessage("Для продолжения нажмите -1; Для отметы нажмите - 2", 0xFF8C00)
-			wait(2000)
-			repeat
-			wait(10)
-			if isKeyJustPressed(VK_2) then
-				sampAddChatMessage("Успешно отменено", main_color)
-			return
-			end
-			until isKeyJustPressed(VK_1)
-			sampSendChat("Хорошо, покажите ваши документы, а именно: паспорт, мед.карту и лицензии")
-			wait(2000)
-			sampSendChat("/n /showpass " ..id.. " | /showmc " ..id.. " | /showlic " ..id)
-			wait(2000)
-			sampAddChatMessage("Для продолжения нажмите -1; Для отметы нажмите - 2", 0xFF8C00)
-			wait(2000)
-			repeat
-			wait(10)
-			if isKeyJustPressed(VK_2) then
-				sampAddChatMessage("Успешно отменено", main_color)
-			return
-			end
-			until isKeyJustPressed(VK_1)
-			sampSendChat("/me аккуратным движением руки взяла документы у человека напротив")
-			wait(2000)
-			sampSendChat("/todo Так, хорошо, это есть...*осмотрев документы")
-			wait(2000)
-			sampSendChat("/me аккуратным движением руки вернула документы человеку напротив")
-			wait(2000)
-			sampAddChatMessage("Подходит - 1; Не подходит - 2", 0xFF8C00)
-			wait(2000)
-			repeat
-			wait(10)
-			if isKeyJustPressed(VK_2) then
-				sampSendChat("К сожалению, Вы нам не подходите.")
-			return
-			end
-			until isKeyJustPressed(VK_1)
-			sampSendChat("Отлично. Вы нам подходите. Сейчас я выдам Вам форму и ключ от шкафчика")
-			wait(2000)
-			sampSendChat("/me плавно наклонилась в сторону ящика от стойки и приоткрыв его...")
-			wait(2000)
-			sampSendChat("/me ...взяла форму и ключ номер " ..idpl)
-			wait(2000)
-			sampSendChat("Удачной Вам работы!")
+	if not women.v == true then
+		sampSendChat("Здравствуйте, вы пришли к нам на собеседование?")
+		wait(2000)
+		sampAddChatMessage("Для продолжения нажмите -1; Для отметы нажмите - 2", 0xFF8C00)
+		wait(2000)
+		repeat
+		wait(10)
+    	if isKeyJustPressed(VK_2) then
+			sampAddChatMessage("Успешно отменено", main_color)
+    	return
+    	end
+		until isKeyJustPressed(VK_1)
+    	sampSendChat("Хорошо, покажите ваши документы, а именно: паспорт, мед.карту и лицензии")
+		wait(2000)
+		sampSendChat("/n /showpass " ..id.. " | /showmc " ..id.. " | /showlic " ..id)
+		wait(2000)
+		sampAddChatMessage("Для продолжения нажмите -1; Для отметы нажмите - 2", 0xFF8C00)
+		wait(2000)
+		repeat
+		wait(10)
+    	if isKeyJustPressed(VK_2) then
+			sampAddChatMessage("Успешно отменено", main_color)
+    	return
+    	end
+		until isKeyJustPressed(VK_1)
+		sampSendChat("/me аккуратным движением руки взял документы у человека напротив")
+		wait(2000)
+		sampSendChat("/todo Так, хорошо, это есть...*осмотрев документы")
+		wait(2000)
+		sampSendChat("/me аккуратным движением руки вернул документы человеку напротив")
+		wait(2000)
+		sampAddChatMessage("Подходит - 1; Не подходит - 2", 0xFF8C00)
+		wait(2000)
+		repeat
+		wait(10)
+    	if isKeyJustPressed(VK_2) then
+			sampSendChat("К сожалению, Вы нам не подходите.")
+    	return
+    	end
+		until isKeyJustPressed(VK_1)
+		sampSendChat("Отлично. Вы нам подходите. Сейчас я выдам Вам форму и ключ от шкафчика")
+		wait(2000)
+		sampSendChat("/me плавно наклонился в сторону ящика от стойки и приоткрыв его...")
+		wait(2000)
+		sampSendChat("/me ...взял форму и ключ номер " ..idpl)
+		wait(2000)
+		sampSendChat("Удачной Вам работы!")
 		end
+
+	if not women.v == false then
+		sampSendChat("Здравствуйте, вы пришли к нам на собеседование?")
+		wait(2000)
+		sampAddChatMessage("Для продолжения нажмите -1; Для отметы нажмите - 2", 0xFF8C00)
+		wait(2000)
+		repeat
+		wait(10)
+    	if isKeyJustPressed(VK_2) then
+			sampAddChatMessage("Успешно отменено", main_color)
+    	return
+    	end
+		until isKeyJustPressed(VK_1)
+    	sampSendChat("Хорошо, покажите ваши документы, а именно: паспорт, мед.карту и лицензии")
+		wait(2000)
+		sampSendChat("/n /showpass " ..id.. " | /showmc " ..id.. " | /showlic " ..id)
+		wait(2000)
+		sampAddChatMessage("Для продолжения нажмите -1; Для отметы нажмите - 2", 0xFF8C00)
+		wait(2000)
+		repeat
+		wait(10)
+    	if isKeyJustPressed(VK_2) then
+			sampAddChatMessage("Успешно отменено", main_color)
+    	return
+    	end
+		until isKeyJustPressed(VK_1)
+		sampSendChat("/me аккуратным движением руки взяла документы у человека напротив")
+		wait(2000)
+		sampSendChat("/todo Так, хорошо, это есть...*осмотрев документы")
+		wait(2000)
+		sampSendChat("/me аккуратным движением руки вернула документы человеку напротив")
+		wait(2000)
+		sampAddChatMessage("Подходит - 1; Не подходит - 2", 0xFF8C00)
+		wait(2000)
+		repeat
+		wait(10)
+    	if isKeyJustPressed(VK_2) then
+			sampSendChat("К сожалению, Вы нам не подходите.")
+    	return
+    	end
+		until isKeyJustPressed(VK_1)
+		sampSendChat("Отлично. Вы нам подходите. Сейчас я выдам Вам форму и ключ от шкафчика")
+		wait(2000)
+		sampSendChat("/me плавно наклонилась в сторону ящика от стойки и приоткрыв его...")
+		wait(2000)
+		sampSendChat("/me ...взяла форму и ключ номер " ..idpl)
+		wait(2000)
+		sampSendChat("Удачной Вам работы!")
+	end
 	end)
 end
 
@@ -229,31 +205,17 @@ end
 function imgui.OnDrawFrame()
 
 	imgui.SetNextWindowPos(imgui.ImVec2(sw / 2, sh / 2), imgui.Cond.FirstUseEver, imgui.ImVec2(0.5, 0.5))
-  	imgui.SetNextWindowSize(imgui.ImVec2(620, 650), imgui.Cond.FirstUseEver)
+  	imgui.SetNextWindowSize(imgui.ImVec2(600, 600), imgui.Cond.FirstUseEver)
 	imgui.Begin(u8"BindCNN", main_window_state, imgui.WindowFlags.NoResize + imgui.WindowFlags.NoCollapse)
-	imgui.TextColored(imgui.ImVec4(0, 1, 0, 1), u8'Версия: ' .. updateIni.info.vers_text)
-
-	imgui.BeginChild('##1', imgui.ImVec2(200, 175), true)
+	imgui.TextColored(imgui.ImVec4(0, 1, 0, 1), u8'Версия: ', script_version)
+	if imgui.CollapsingHeader(u8"Главное меню") then
 		imgui.Text(u8"Ваш ник: " ..nick.. "[" ..id.. "]")
-		imgui.ToggleButton(u8"Женские отыгровки", women)
-	imgui.EndChild()
-
-	imgui.SetCursorPos(imgui.ImVec2(210, 43))
-	imgui.BeginChild('##2', imgui.ImVec2(200, 175), true)
-		for i, value in ipairs(themes.colorThemes) do
-			if imgui.RadioButton(value, checked_radio, i) then
-				themes.SwitchColorThemes(i)
-			end
-		end
-	imgui.EndChild()
-
-	imgui.SetCursorPos(imgui.ImVec2(4, 225))
-	imgui.BeginChild('##4', imgui.ImVec2(200, 175), true)
+		imgui.Checkbox(u8"Женские отыгровки", women)
+	end
+	if imgui.CollapsingHeader(u8"Команды") then
 		imgui.Text(u8"/bmenu - меню скрипта\n/invv - отыгровка принятия игрока")
-	imgui.EndChild()
-
-	imgui.SetCursorPos(imgui.ImVec2(415, 43))
-	imgui.BeginChild('##3', imgui.ImVec2(200, 175), true)
+	end
+	if imgui.CollapsingHeader(u8"Лекции") then
 		if imgui.Button(u8'Лекция 1 - Спец.Рация', imgui.ImVec2(150, 30)) then
 			lua_thread.create(function ()
 				sampSendChat("/r Здравствуйте, дорогие коллеги!")
@@ -294,14 +256,17 @@ function imgui.OnDrawFrame()
 				wait(2000)
 			end)
 		end
-		if imgui.Button(u8'лекция 3 - Резервная кнопка(не работает)', imgui.ImVec2(150, 30)) then
-			lua_thread.create(function ()
-				sampSendChat("пїЅпїЅпїЅпїЅпїЅпїЅ 3.")
-			end)
+	end
+	
+	imgui.BeginChild('Тест', imgui.ImVec2(200, 175), true)
+		for i, value in ipairs(themes.colorThemes) do
+			if imgui.RadioButton(value, checked_radio, i) then
+				themes.SwitchColorThemes(i)
+			end
 		end
 	imgui.EndChild()
-	imgui.SetCursorPos(imgui.ImVec2(0, 580))
-	if imgui.Button(u8"Перезапустить скрипт", imgui.ImVec2(145,58)) then
+
+	if imgui.Button(u8"Перезагрузить скрипт", imgui.ImVec2(145,58)) then
 		thisScript():reload()
 	end
 	imgui.End()
