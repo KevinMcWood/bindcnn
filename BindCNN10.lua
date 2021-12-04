@@ -33,7 +33,7 @@ toggle_status = imgui.ImBool(false)
 toggle_status_1 = imgui.ImBool(false)
 
 local script_vers = 5
-local script_vers_text = "5.1"
+local script_vers_text = "5.2.1"
 
 local update_url = "https://raw.githubusercontent.com/KevinMcWood/bindcnn/main/update.ini" 
 local update_path = getWorkingDirectory() .. "/update.ini" 
@@ -49,6 +49,7 @@ function main()
 
 	sampAddChatMessage("[BindCNN] Биндер для CNN", main_color)
 	sampAddChatMessage("[BindCNN] Активация - /bmenu", main_color)
+	sampAddChatMessage("[BindCNN] Разработчик - Kevin_McWood", main_color)
 
 	sampRegisterChatCommand("bmenu", cmd_bmenu)
 	sampRegisterChatCommand("invv", invv)
