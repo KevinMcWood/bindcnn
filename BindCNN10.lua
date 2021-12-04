@@ -294,7 +294,7 @@ function imgui.OnDrawFrame()
 				wait(2000)
 			end)
 		end
-		if imgui.Button(u8'пїЅпїЅпїЅпїЅпїЅпїЅ 3 - пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ', imgui.ImVec2(150, 30)) then
+		if imgui.Button(u8'лекция 3 - Резервная кнопка(не работает)', imgui.ImVec2(150, 30)) then
 			lua_thread.create(function ()
 				sampSendChat("пїЅпїЅпїЅпїЅпїЅпїЅ 3.")
 			end)
