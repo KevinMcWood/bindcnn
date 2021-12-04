@@ -32,8 +32,8 @@ local women = imgui.ImBool(false)
 toggle_status = imgui.ImBool(false)
 toggle_status_1 = imgui.ImBool(false)
 
-local script_vers = 6
-local script_vers_text = "6.1"
+local script_vers = 7
+local script_vers_text = "7.1"
 
 local update_url = "https://raw.githubusercontent.com/KevinMcWood/bindcnn/main/update.ini" -- пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 local update_path = getWorkingDirectory() .. "/update.ini" -- пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
@@ -48,6 +48,8 @@ function main()
 	health = getCharHealth(PLAYER_PED)
 
 	sampAddChatMessage("Биндер для CNN", main_color)
+	sampAddChatMessage("Создано для Brainburg", main_color)
+	sampAddChatMessage("Автор Kevin_McWood", main_color)
 
 	sampRegisterChatCommand("bmenu", cmd_bmenu)
 	sampRegisterChatCommand("invv", invv)
