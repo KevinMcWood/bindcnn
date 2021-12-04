@@ -47,7 +47,8 @@ function main()
 
 	health = getCharHealth(PLAYER_PED)
 
-	sampAddChatMessage("Биндер для CNN", main_color)
+	sampAddChatMessage("[BindCNN] Биндер для CNN", main_color)
+	sampAddChatMessage("[BindCNN] Активация - /bmenu", main_color)
 
 	sampRegisterChatCommand("bmenu", cmd_bmenu)
 	sampRegisterChatCommand("invv", invv)
@@ -73,7 +74,7 @@ function main()
 
 	while true do
 		wait(0)
-
+		
 		_, id = sampGetPlayerIdByCharHandle(PLAYER_PED)
 		nick = sampGetPlayerNickname(id)
 
@@ -245,9 +246,10 @@ function imgui.OnDrawFrame()
 		end
 	imgui.EndChild()
 
-	if imgui.CollapsingHeader(u8"Команды") then
+	imgui.SetCursorPos(imgui.ImVec2(4, 225))
+	imgui.BeginChild('##4', imgui.ImVec2(200, 175), true)
 		imgui.Text(u8"/bmenu - меню скрипта\n/invv - отыгровка принятия игрока")
-	end
+	imgui.EndChild()
 
 	imgui.SetCursorPos(imgui.ImVec2(415, 43))
 	imgui.BeginChild('##3', imgui.ImVec2(200, 175), true)
