@@ -32,7 +32,7 @@ local women = imgui.ImBool(false)
 toggle_status = imgui.ImBool(false)
 toggle_status_1 = imgui.ImBool(false)
 
-local script_vers = 5
+local script_vers = 5.2.1
 local script_vers_text = "5.2.1"
 
 local update_url = "https://raw.githubusercontent.com/KevinMcWood/bindcnn/main/update.ini" 
@@ -48,6 +48,8 @@ function main()
 	health = getCharHealth(PLAYER_PED)
 
 	sampAddChatMessage("[BindCNN] Биндер для CNN", main_color)
+	sampAddChatMessage("[BindCNN] /bmenu - меню скрипта", main_color)
+	sampAddChatMessage("[BindCNN] Создано специально для Brainburg", main_color)
 
 	sampRegisterChatCommand("bmenu", cmd_bmenu)
 	sampRegisterChatCommand("invv", invv)
