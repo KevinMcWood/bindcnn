@@ -9,6 +9,11 @@ local imgui = require "imgui"
 local encoding = require "encoding"
 encoding.default = 'CP1251'
 u8 = encoding.UTF8
+local rkeys = require 'rkeys'
+imgui.ToggleButton = require('imgui_addons').ToggleButton
+imgui.HotKey = require('imgui_addons').HotKey
+imgui.Spinner = require('imgui_addons').Spinner
+imgui.BufferingBar = require('imgui_addons').BufferingBar
 
 update_state = false
 
@@ -24,14 +29,16 @@ local main_window_state = imgui.ImBool(false)
 local text_buffer = imgui.ImBuffer(256)
 local sw, sh = getScreenResolution()
 local women = imgui.ImBool(false)
+toggle_status = imgui.ImBool(false)
+toggle_status_1 = imgui.ImBool(false)
 
-local script_vers = 3
-local script_vers_text = "3.0"
+local script_vers = 5
+local script_vers_text = "5.1"
 
-local update_url = "https://raw.githubusercontent.com/KevinMcWood/bindcnn/main/update.ini" -- тут тоже свою ссылку
-local update_path = getWorkingDirectory() .. "/update.ini" -- и тут свою ссылку
+local update_url = "https://raw.githubusercontent.com/KevinMcWood/bindcnn/main/update.ini" -- пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+local update_path = getWorkingDirectory() .. "/update.ini" -- пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
-local script_url = "https://raw.githubusercontent.com/KevinMcWood/bindcnn/main/BindCNN10.lua" -- тут свою ссылку
+local script_url = "https://raw.githubusercontent.com/KevinMcWood/bindcnn/main/BindCNN10.lua" -- пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 local script_path = thisScript().path
 
 function main()
@@ -93,6 +100,21 @@ function cmd_bmenu(arg)
 end
 
 function clearchat(arg)
+	sampAddChatMessage("   ", -1)
+	sampAddChatMessage("   ", -1)
+	sampAddChatMessage("   ", -1)
+	sampAddChatMessage("   ", -1)
+	sampAddChatMessage("   ", -1)
+	sampAddChatMessage("   ", -1)
+	sampAddChatMessage("   ", -1)
+	sampAddChatMessage("   ", -1)
+	sampAddChatMessage("   ", -1)
+	sampAddChatMessage("   ", -1)
+	sampAddChatMessage("   ", -1)
+	sampAddChatMessage("   ", -1)
+	sampAddChatMessage("   ", -1)
+	sampAddChatMessage("   ", -1)
+	sampAddChatMessage("   ", -1)
 	sampAddChatMessage("   ", -1)
 end
 
@@ -205,16 +227,30 @@ end
 function imgui.OnDrawFrame()
 
 	imgui.SetNextWindowPos(imgui.ImVec2(sw / 2, sh / 2), imgui.Cond.FirstUseEver, imgui.ImVec2(0.5, 0.5))
-  	imgui.SetNextWindowSize(imgui.ImVec2(600, 600), imgui.Cond.FirstUseEver)
+  	imgui.SetNextWindowSize(imgui.ImVec2(620, 650), imgui.Cond.FirstUseEver)
 	imgui.Begin(u8"BindCNN", main_window_state, imgui.WindowFlags.NoResize + imgui.WindowFlags.NoCollapse)
-	imgui.TextColored(imgui.ImVec4(0, 1, 0, 1), u8'Версия: ', script_version)
-	if imgui.CollapsingHeader(u8"Главное меню") then
+	imgui.TextColored(imgui.ImVec4(0, 1, 0, 1), u8'Версия:: ', script_version)
+
+	imgui.BeginChild('##1', imgui.ImVec2(200, 175), true)
 		imgui.Text(u8"Ваш ник: " ..nick.. "[" ..id.. "]")
-		imgui.Checkbox(u8"Женские отыгровки", women)
-	end
+		imgui.ToggleButton(u8"Женские отыгровки", women)
+	imgui.EndChild()
+
+	imgui.SetCursorPos(imgui.ImVec2(210, 43))
+	imgui.BeginChild('##2', imgui.ImVec2(200, 175), true)
+		for i, value in ipairs(themes.colorThemes) do
+			if imgui.RadioButton(value, checked_radio, i) then
+				themes.SwitchColorThemes(i)
+			end
+		end
+	imgui.EndChild()
+
 	if imgui.CollapsingHeader(u8"Команды") then
 		imgui.Text(u8"/bmenu - меню скрипта\n/invv - отыгровка принятия игрока")
 	end
+
+	imgui.SetCursorPos(imgui.ImVec2(415, 43))
+	imgui.BeginChild('##3', imgui.ImVec2(200, 175), true)
 	if imgui.CollapsingHeader(u8"Лекции") then
 		if imgui.Button(u8'Лекция 1 - Спец.Рация', imgui.ImVec2(150, 30)) then
 			lua_thread.create(function ()
@@ -257,16 +293,9 @@ function imgui.OnDrawFrame()
 			end)
 		end
 	end
-	
-	imgui.BeginChild('Тест', imgui.ImVec2(200, 175), true)
-		for i, value in ipairs(themes.colorThemes) do
-			if imgui.RadioButton(value, checked_radio, i) then
-				themes.SwitchColorThemes(i)
-			end
-		end
 	imgui.EndChild()
-
-	if imgui.Button(u8"Перезагрузить скрипт", imgui.ImVec2(145,58)) then
+	imgui.SetCursorPos(imgui.ImVec2(0, 580))
+	if imgui.Button(u8"Перезапустить скрипт", imgui.ImVec2(145,58)) then
 		thisScript():reload()
 	end
 	imgui.End()
