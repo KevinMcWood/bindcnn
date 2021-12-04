@@ -48,8 +48,6 @@ function main()
 	health = getCharHealth(PLAYER_PED)
 
 	sampAddChatMessage("[BindCNN] Биндер для CNN", main_color)
-	sampAddChatMessage("[BindCNN] Активация - /bmenu", main_color)
-	sampAddChatMessage("[BindCNN] Разработчик - Kevin_McWood", main_color)
 
 	sampRegisterChatCommand("bmenu", cmd_bmenu)
 	sampRegisterChatCommand("invv", invv)
@@ -231,7 +229,7 @@ function imgui.OnDrawFrame()
 	imgui.SetNextWindowPos(imgui.ImVec2(sw / 2, sh / 2), imgui.Cond.FirstUseEver, imgui.ImVec2(0.5, 0.5))
   	imgui.SetNextWindowSize(imgui.ImVec2(620, 650), imgui.Cond.FirstUseEver)
 	imgui.Begin(u8"BindCNN", main_window_state, imgui.WindowFlags.NoResize + imgui.WindowFlags.NoCollapse)
-	imgui.TextColored(imgui.ImVec4(0, 1, 0, 1), u8'Версия: ', script_version)
+	imgui.TextColored(imgui.ImVec4(0, 1, 0, 1), u8'Версия: ' .. updateIni.info.vers_text)
 
 	imgui.BeginChild('##1', imgui.ImVec2(200, 175), true)
 		imgui.Text(u8"Ваш ник: " ..nick.. "[" ..id.. "]")
