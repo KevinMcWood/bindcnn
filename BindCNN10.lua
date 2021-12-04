@@ -32,8 +32,8 @@ local women = imgui.ImBool(false)
 toggle_status = imgui.ImBool(false)
 toggle_status_1 = imgui.ImBool(false)
 
-local script_vers = 5
-local script_vers_text = "5.1"
+local script_vers = 6
+local script_vers_text = "6.1"
 
 local update_url = "https://raw.githubusercontent.com/KevinMcWood/bindcnn/main/update.ini" -- пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 local update_path = getWorkingDirectory() .. "/update.ini" -- пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
@@ -229,7 +229,7 @@ function imgui.OnDrawFrame()
 	imgui.SetNextWindowPos(imgui.ImVec2(sw / 2, sh / 2), imgui.Cond.FirstUseEver, imgui.ImVec2(0.5, 0.5))
   	imgui.SetNextWindowSize(imgui.ImVec2(620, 650), imgui.Cond.FirstUseEver)
 	imgui.Begin(u8"BindCNN", main_window_state, imgui.WindowFlags.NoResize + imgui.WindowFlags.NoCollapse)
-	imgui.TextColored(imgui.ImVec4(0, 1, 0, 1), u8'Версия:: ', script_version)
+	imgui.TextColored(imgui.ImVec4(0, 1, 0, 1), u8'Версия: ' .. updateIni.info.vers_text)
 
 	imgui.BeginChild('##1', imgui.ImVec2(200, 175), true)
 		imgui.Text(u8"Ваш ник: " ..nick.. "[" ..id.. "]")
@@ -245,13 +245,13 @@ function imgui.OnDrawFrame()
 		end
 	imgui.EndChild()
 
-	if imgui.CollapsingHeader(u8"Команды") then
-		imgui.Text(u8"/bmenu - меню скрипта\n/invv - отыгровка принятия игрока")
-	end
+	imgui.SetCursorPos(imgui.ImVec2(5, 220))
+	imgui.BeginChild('##3', imgui.ImVec2(200, 175), true)
+	imgui.Text(u8"/bmenu - меню скрипта")
+	imgui.EndChild()
 
 	imgui.SetCursorPos(imgui.ImVec2(415, 43))
-	imgui.BeginChild('##3', imgui.ImVec2(200, 175), true)
-	if imgui.CollapsingHeader(u8"Лекции") then
+	imgui.BeginChild('##4', imgui.ImVec2(200, 175), true)
 		if imgui.Button(u8'Лекция 1 - Спец.Рация', imgui.ImVec2(150, 30)) then
 			lua_thread.create(function ()
 				sampSendChat("/r Здравствуйте, дорогие коллеги!")
@@ -292,7 +292,6 @@ function imgui.OnDrawFrame()
 				wait(2000)
 			end)
 		end
-	end
 	imgui.EndChild()
 	imgui.SetCursorPos(imgui.ImVec2(0, 580))
 	if imgui.Button(u8"Перезапустить скрипт", imgui.ImVec2(145,58)) then
