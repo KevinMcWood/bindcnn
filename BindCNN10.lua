@@ -35,10 +35,10 @@ toggle_status_1 = imgui.ImBool(false)
 local script_vers = 5
 local script_vers_text = "5.1"
 
-local update_url = "https://raw.githubusercontent.com/KevinMcWood/bindcnn/main/update.ini" -- пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
-local update_path = getWorkingDirectory() .. "/update.ini" -- пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+local update_url = "https://raw.githubusercontent.com/KevinMcWood/bindcnn/main/update.ini" 
+local update_path = getWorkingDirectory() .. "/update.ini" 
 
-local script_url = "https://raw.githubusercontent.com/KevinMcWood/bindcnn/main/BindCNN10.lua" -- пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+local script_url = "https://raw.githubusercontent.com/KevinMcWood/bindcnn/main/BindCNN10.lua"
 local script_path = thisScript().path
 
 function main()
@@ -47,7 +47,7 @@ function main()
 
 	health = getCharHealth(PLAYER_PED)
 
-	sampAddChatMessage("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ CNN", main_color)
+	sampAddChatMessage("Биндер для CNN", main_color)
 
 	sampRegisterChatCommand("bmenu", cmd_bmenu)
 	sampRegisterChatCommand("invv", invv)
@@ -64,7 +64,7 @@ function main()
         if status == dlstatus.STATUS_ENDDOWNLOADDATA then
             updateIni = inicfg.load(nil, update_path)
             if tonumber(updateIni.info.vers) > script_vers then
-                sampAddChatMessage("пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ! пїЅпїЅпїЅпїЅпїЅпїЅ: " .. updateIni.info.vers_text, -1)
+                sampAddChatMessage("Есть обновление! Версия: " .. updateIni.info.vers_text, -1)
                 update_state = true
             end
 			os.remove(update_path)
@@ -84,7 +84,7 @@ function main()
 		if update_state then
             downloadUrlToFile(script_url, script_path, function(id, status)
                 if status == dlstatus.STATUS_ENDDOWNLOADDATA then
-                    sampAddChatMessage("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!", -1)
+                    sampAddChatMessage("Скрипт успешно обновлен!", -1)
                     thisScript():reload()
                 end
             end)
@@ -123,103 +123,103 @@ function invv(arg)
 	local _, idpl = sampGetPlayerIdByCharHandle(ped)
 
 	lua_thread.create(function ()
-	if not women.v == true then
-		sampSendChat("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ?")
-		wait(2000)
-		sampAddChatMessage("пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ -1; пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ - 2", 0xFF8C00)
-		wait(2000)
-		repeat
-		wait(10)
-    	if isKeyJustPressed(VK_2) then
-			sampAddChatMessage("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ", main_color)
-    	return
-    	end
-		until isKeyJustPressed(VK_1)
-    	sampSendChat("пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ.пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")
-		wait(2000)
-		sampSendChat("/n /showpass " ..id.. " | /showmc " ..id.. " | /showlic " ..id)
-		wait(2000)
-		sampAddChatMessage("пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ -1; пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ - 2", 0xFF8C00)
-		wait(2000)
-		repeat
-		wait(10)
-    	if isKeyJustPressed(VK_2) then
-			sampAddChatMessage("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ", main_color)
-    	return
-    	end
-		until isKeyJustPressed(VK_1)
-		sampSendChat("/me пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")
-		wait(2000)
-		sampSendChat("/todo пїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ...*пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")
-		wait(2000)
-		sampSendChat("/me пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")
-		wait(2000)
-		sampAddChatMessage("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - 1; пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - 2", 0xFF8C00)
-		wait(2000)
-		repeat
-		wait(10)
-    	if isKeyJustPressed(VK_2) then
-			sampSendChat("пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.")
-    	return
-    	end
-		until isKeyJustPressed(VK_1)
-		sampSendChat("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")
-		wait(2000)
-		sampSendChat("/me пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ...")
-		wait(2000)
-		sampSendChat("/me ...пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ " ..idpl)
-		wait(2000)
-		sampSendChat("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ!")
+		if not women.v == true then
+			sampSendChat("Здравствуйте, вы пришли к нам на собеседование?")
+			wait(2000)
+			sampAddChatMessage("Для продолжения нажмите -1; Для отметы нажмите - 2", 0xFF8C00)
+			wait(2000)
+			repeat
+			wait(10)
+			if isKeyJustPressed(VK_2) then
+				sampAddChatMessage("Успешно отменено", main_color)
+			return
+			end
+			until isKeyJustPressed(VK_1)
+			sampSendChat("Хорошо, покажите ваши документы, а именно: паспорт, мед.карту и лицензии")
+			wait(2000)
+			sampSendChat("/n /showpass " ..id.. " | /showmc " ..id.. " | /showlic " ..id)
+			wait(2000)
+			sampAddChatMessage("Для продолжения нажмите -1; Для отметы нажмите - 2", 0xFF8C00)
+			wait(2000)
+			repeat
+			wait(10)
+			if isKeyJustPressed(VK_2) then
+				sampAddChatMessage("Успешно отменено", main_color)
+			return
+			end
+			until isKeyJustPressed(VK_1)
+			sampSendChat("/me аккуратным движением руки взял документы у человека напротив")
+			wait(2000)
+			sampSendChat("/todo Так, хорошо, это есть...*осмотрев документы")
+			wait(2000)
+			sampSendChat("/me аккуратным движением руки вернул документы человеку напротив")
+			wait(2000)
+			sampAddChatMessage("Подходит - 1; Не подходит - 2", 0xFF8C00)
+			wait(2000)
+			repeat
+			wait(10)
+			if isKeyJustPressed(VK_2) then
+				sampSendChat("К сожалению, Вы нам не подходите.")
+			return
+			end
+			until isKeyJustPressed(VK_1)
+			sampSendChat("Отлично. Вы нам подходите. Сейчас я выдам Вам форму и ключ от шкафчика")
+			wait(2000)
+			sampSendChat("/me плавно наклонился в сторону ящика от стойки и приоткрыв его...")
+			wait(2000)
+			sampSendChat("/me ...взял форму и ключ номер " ..idpl)
+			wait(2000)
+			sampSendChat("Удачной Вам работы!")
+			end
+	
+		if not women.v == false then
+			sampSendChat("Здравствуйте, вы пришли к нам на собеседование?")
+			wait(2000)
+			sampAddChatMessage("Для продолжения нажмите -1; Для отметы нажмите - 2", 0xFF8C00)
+			wait(2000)
+			repeat
+			wait(10)
+			if isKeyJustPressed(VK_2) then
+				sampAddChatMessage("Успешно отменено", main_color)
+			return
+			end
+			until isKeyJustPressed(VK_1)
+			sampSendChat("Хорошо, покажите ваши документы, а именно: паспорт, мед.карту и лицензии")
+			wait(2000)
+			sampSendChat("/n /showpass " ..id.. " | /showmc " ..id.. " | /showlic " ..id)
+			wait(2000)
+			sampAddChatMessage("Для продолжения нажмите -1; Для отметы нажмите - 2", 0xFF8C00)
+			wait(2000)
+			repeat
+			wait(10)
+			if isKeyJustPressed(VK_2) then
+				sampAddChatMessage("Успешно отменено", main_color)
+			return
+			end
+			until isKeyJustPressed(VK_1)
+			sampSendChat("/me аккуратным движением руки взяла документы у человека напротив")
+			wait(2000)
+			sampSendChat("/todo Так, хорошо, это есть...*осмотрев документы")
+			wait(2000)
+			sampSendChat("/me аккуратным движением руки вернула документы человеку напротив")
+			wait(2000)
+			sampAddChatMessage("Подходит - 1; Не подходит - 2", 0xFF8C00)
+			wait(2000)
+			repeat
+			wait(10)
+			if isKeyJustPressed(VK_2) then
+				sampSendChat("К сожалению, Вы нам не подходите.")
+			return
+			end
+			until isKeyJustPressed(VK_1)
+			sampSendChat("Отлично. Вы нам подходите. Сейчас я выдам Вам форму и ключ от шкафчика")
+			wait(2000)
+			sampSendChat("/me плавно наклонилась в сторону ящика от стойки и приоткрыв его...")
+			wait(2000)
+			sampSendChat("/me ...взяла форму и ключ номер " ..idpl)
+			wait(2000)
+			sampSendChat("Удачной Вам работы!")
 		end
-
-	if not women.v == false then
-		sampSendChat("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ?")
-		wait(2000)
-		sampAddChatMessage("пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ -1; пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ - 2", 0xFF8C00)
-		wait(2000)
-		repeat
-		wait(10)
-    	if isKeyJustPressed(VK_2) then
-			sampAddChatMessage("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ", main_color)
-    	return
-    	end
-		until isKeyJustPressed(VK_1)
-    	sampSendChat("пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ.пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")
-		wait(2000)
-		sampSendChat("/n /showpass " ..id.. " | /showmc " ..id.. " | /showlic " ..id)
-		wait(2000)
-		sampAddChatMessage("пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ -1; пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ - 2", 0xFF8C00)
-		wait(2000)
-		repeat
-		wait(10)
-    	if isKeyJustPressed(VK_2) then
-			sampAddChatMessage("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ", main_color)
-    	return
-    	end
-		until isKeyJustPressed(VK_1)
-		sampSendChat("/me пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")
-		wait(2000)
-		sampSendChat("/todo пїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ...*пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")
-		wait(2000)
-		sampSendChat("/me пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")
-		wait(2000)
-		sampAddChatMessage("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - 1; пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - 2", 0xFF8C00)
-		wait(2000)
-		repeat
-		wait(10)
-    	if isKeyJustPressed(VK_2) then
-			sampSendChat("пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.")
-    	return
-    	end
-		until isKeyJustPressed(VK_1)
-		sampSendChat("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")
-		wait(2000)
-		sampSendChat("/me пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ...")
-		wait(2000)
-		sampSendChat("/me ...пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ " ..idpl)
-		wait(2000)
-		sampSendChat("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ!")
-	end
 	end)
 end
 
@@ -229,11 +229,11 @@ function imgui.OnDrawFrame()
 	imgui.SetNextWindowPos(imgui.ImVec2(sw / 2, sh / 2), imgui.Cond.FirstUseEver, imgui.ImVec2(0.5, 0.5))
   	imgui.SetNextWindowSize(imgui.ImVec2(620, 650), imgui.Cond.FirstUseEver)
 	imgui.Begin(u8"BindCNN", main_window_state, imgui.WindowFlags.NoResize + imgui.WindowFlags.NoCollapse)
-	imgui.TextColored(imgui.ImVec4(0, 1, 0, 1), u8'пїЅпїЅпїЅпїЅпїЅпїЅ: ', script_version)
+	imgui.TextColored(imgui.ImVec4(0, 1, 0, 1), u8'Версия: ', script_version)
 
 	imgui.BeginChild('##1', imgui.ImVec2(200, 175), true)
-		imgui.Text(u8"пїЅпїЅпїЅ пїЅпїЅпїЅ: " ..nick.. "[" ..id.. "]")
-		imgui.ToggleButton(u8"пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ", women)
+		imgui.Text(u8"Ваш ник: " ..nick.. "[" ..id.. "]")
+		imgui.ToggleButton(u8"Женские отыгровки", women)
 	imgui.EndChild()
 
 	imgui.SetCursorPos(imgui.ImVec2(210, 43))
@@ -245,49 +245,49 @@ function imgui.OnDrawFrame()
 		end
 	imgui.EndChild()
 
-	if imgui.CollapsingHeader(u8"пїЅпїЅпїЅпїЅпїЅпїЅпїЅ") then
-		imgui.Text(u8"/bmenu - пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ\n/invv - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ\n/clearchat - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ")
+	if imgui.CollapsingHeader(u8"Команды") then
+		imgui.Text(u8"/bmenu - меню скрипта\n/invv - отыгровка принятия игрока")
 	end
 
 	imgui.SetCursorPos(imgui.ImVec2(415, 43))
 	imgui.BeginChild('##3', imgui.ImVec2(200, 175), true)
-		if imgui.Button(u8'пїЅпїЅпїЅпїЅпїЅпїЅ 1 - пїЅпїЅпїЅпїЅ.пїЅпїЅпїЅпїЅпїЅ', imgui.ImVec2(150, 30)) then
+		if imgui.Button(u8'Лекция 1 - Спец.Рация', imgui.ImVec2(150, 30)) then
 			lua_thread.create(function ()
-				sampSendChat("/r пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ!")
+				sampSendChat("/r Здравствуйте, дорогие коллеги!")
 				wait(2000)
-				sampSendChat("/r пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ 'пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ'.")
+				sampSendChat("/r Сейчас я хочу вам рассказать о нашей 'Спец рации Дискорд'.")
 				wait(2000)
-				sampSendChat("/r пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.")
+				sampSendChat("/r Данная спец. рация нужна нужна абсолютно всем сотрудникам, включая и стажёров.")
 				wait(2000)
-				sampSendChat("/r пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")
+				sampSendChat("/r Она предназначена для быстрой передачи информации между сотрудниками")
 				wait(2000)
-				sampSendChat("/r пїЅпїЅпїЅ-пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ")
+				sampSendChat("/r Так-же подключить её очень просто")
 				wait(2000)
-				sampSendChat("/rb пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ! пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ - https://discord.gg/brainburg")
+				sampSendChat("/rb Все очень просто! Для тех у кого нету - https://discord.gg/brainburg")
 				wait(2000)
-				sampSendChat("/rb пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ [CNN LS][1] Nick_Name")
+				sampSendChat("/rb Делаем ник по форме [CNN LS][1] Nick_Name")
 				wait(2000)
-				sampSendChat("/rb пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ #пїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ'")
+				sampSendChat("/rb пишем в канал #запрос-роли и нажимаем кнопку 'Запросить роль организации'")
 				wait(2000)
-				sampSendChat("/rb пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ | LVFM")
+				sampSendChat("/rb после того как вам выдадут роль листаем ниже и подключаемся в канал СМИ | LVFM")
 				wait(2000)
 			end)
 		end
-		if imgui.Button(u8'пїЅпїЅпїЅпїЅпїЅпїЅ 2 - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ', imgui.ImVec2(150, 30)) then
+		if imgui.Button(u8'Лекция 2 - Субординация', imgui.ImVec2(150, 30)) then
 			lua_thread.create(function ()
-				sampSendChat("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ!")
+				sampSendChat("Здравствуйте, дорогие коллеги!")
 				wait(2000)
-				sampSendChat("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ'.")
+				sampSendChat("Сейчас я проведу лекцию на тему 'Субординация'.")
 				wait(2000)
-				sampSendChat("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ")
+				sampSendChat("Субординация - это правило общения между людьми")
 				wait(2000)
-				sampSendChat("пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ!")
+				sampSendChat("В нашем радиоцентре общение строго на Вы!")
 				wait(2000)
-				sampSendChat("пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.")
+				sampSendChat("Вы обязаны с общаться с посетителями радиоцентрами уважительно.")
 				wait(2000)
-				sampSendChat("пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ")
+				sampSendChat("С коллегами вы так же обязаны относиться на Вы")
 				wait(2000)
-				sampSendChat("пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")
+				sampSendChat("На этом лекция на тему 'Субординация' окончена")
 				wait(2000)
 			end)
 		end
@@ -298,7 +298,7 @@ function imgui.OnDrawFrame()
 		end
 	imgui.EndChild()
 	imgui.SetCursorPos(imgui.ImVec2(0, 580))
-	if imgui.Button(u8"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ", imgui.ImVec2(145,58)) then
+	if imgui.Button(u8"Перезапустить скрипт", imgui.ImVec2(145,58)) then
 		thisScript():reload()
 	end
 	imgui.End()
