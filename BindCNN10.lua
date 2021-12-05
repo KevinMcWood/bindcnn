@@ -21,6 +21,8 @@ update_state = false
 local themes = import "resource/imgui_themes.lua"
 local checked_radio = imgui.ImInt(1)
 
+local idn, itext = -1, ''
+
 local label = 0
 local main_color = 0x5A90CE
 local main_color_text = "{5A90CE}"
@@ -33,7 +35,7 @@ local women = imgui.ImBool(false)
 toggle_status = imgui.ImBool(false)
 toggle_status_1 = imgui.ImBool(false)
 
-local script_vers = 7.1
+local script_vers = 7.1.1
 local script_vers_text = "7.1.1"
 
 local update_url = "https://raw.githubusercontent.com/KevinMcWood/bindcnn/main/update.ini"
@@ -59,7 +61,7 @@ function main()
     imgui.Process = false
 
     imgui.SwitchContext()
-    themes.SwitchColorTheme()
+    themes.SwitchColorThemes()
 
     downloadUrlToFile(update_url, update_path, function(id, status)
         if status == dlstatus.STATUS_ENDDOWNLOADDATA then
@@ -89,7 +91,7 @@ function main()
         if update_state then
             downloadUrlToFile(script_url, script_path, function(id, status)
                 if status == dlstatus.STATUS_ENDDOWNLOADDATA then
-                    sampAddChatMessage("Скрипт успешно обновлен!", -1)
+                    sampAddChatMessage("Скрипт успешно обновлен/откачен!", -1)
                     thisScript():reload()
                 end
             end)
@@ -228,6 +230,26 @@ function invv(arg)
     end)
 end
 
+function cmd_vig(arg)
+	    local _, ped = storeClosestEntities(PLAYER_PED)
+    local _, idpl = sampGetPlayerIdByCharHandle(ped)
+    lua_thread.create(function ()
+        sampSendChat("/me взял из кармана планшет и зашел в базу данных сотрудников...")
+        wait(2000)
+        sampSendChat("/me ...после чего изменил информацию о сотруднике, вписал 'выговор'")
+        wait(2000)
+        sampShowDialog(1000, "Система выдачи выговоров", "Введите id игрока и причину\n19,Нарушение устава", "Выдать",'Отмена', 1)
+        while sampIsDialogActive(6406) do wait(100) end
+        local result, button, list, input = sampHasDialogRespond(6406)
+        if input:find('(%d+),(.+)') and button == 1 then
+            idn, itext = input:match('(%d+),(.+)')
+            sampSendChat("/fwarn "..idn..' '..itext)
+        else
+            print('Тест')
+        end
+    end)
+end
+
 function imgui.OnDrawFrame()
 
     imgui.SetNextWindowPos(imgui.ImVec2(sw / 2, sh / 2), imgui.Cond.FirstUseEver, imgui.ImVec2(0.5, 0.5))
@@ -245,9 +267,9 @@ function imgui.OnDrawFrame()
         -- Темы
     imgui.SetCursorPos(imgui.ImVec2(210, 43))
     imgui.BeginChild('##2', imgui.ImVec2(200, 175), true)
-        for i, value in ipairs(themes.colorTheme) do
+        for i, value in ipairs(themes.colorThemes) do
             if imgui.RadioButton(value, checked_radio, i) then
-                themes.SwitchColorTheme(i)
+                themes.SwitchColorThemes(i)
             end
         end
     imgui.EndChild()
