@@ -35,8 +35,8 @@ local women = imgui.ImBool(false)
 toggle_status = imgui.ImBool(false)
 toggle_status_1 = imgui.ImBool(false)
 
-local script_vers = 8
-local script_vers_text = "8.1"
+local script_vers = 1
+local script_vers_text = "1.1"
 
 local update_url = "https://raw.githubusercontent.com/KevinMcWood/bindcnn/main/update.ini"
 local update_path = getWorkingDirectory() .. "/update.ini"
@@ -87,7 +87,7 @@ function main()
         if update_state then
             downloadUrlToFile(script_url, script_path, function(id, status)
                 if status == dlstatus.STATUS_ENDDOWNLOADDATA then
-                    sampAddChatMessage("Скрипт успешно обновлен/откачен!", -1)
+                    sampAddChatMessage("Скрипт успешно обновлен!", -1)
                     thisScript():reload()
                 end
             end)
