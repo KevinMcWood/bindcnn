@@ -35,8 +35,8 @@ local women = imgui.ImBool(false)
 toggle_status = imgui.ImBool(false)
 toggle_status_1 = imgui.ImBool(false)
 
-local script_vers = 1.1
-local script_vers_text = "1.1"
+local script_vers = 1.2
+local script_vers_text = "1.2"
 
 local update_url = "https://raw.githubusercontent.com/KevinMcWood/bindcnn/main/update.ini"
 local update_path = getWorkingDirectory() .. "/update.ini"
@@ -153,6 +153,8 @@ function invv(arg)
 		wait(2000)
 		sampSendChat("/me ...взял форму и ключ номер " ..idpl)
 		wait(2000)
+		sampSendChat("/invite " ..idpl)
+		wait(2000)
 		sampSendChat("Удачной Вам работы!")
         end
 
@@ -202,6 +204,8 @@ function invv(arg)
 		wait(2000)
 		sampSendChat("/me ...взяла форму и ключ номер " ..idpl)
 		wait(2000)
+		sampSendChat("/invite " ..idpl)
+		wait(2000)
 		sampSendChat("Удачной Вам работы!")
     end
     end)
@@ -247,15 +251,14 @@ function cmd_vig(arg)
 end
 
 function cmd_exp(arg)
-	local _, ped = storeClosestEntities(PLAYER_PED)
-    local _, idpl = sampGetPlayerIdByCharHandle(ped)
     lua_thread.create(function ()
         sampSendChat("/me взял человека напротив за шкирку и потащил ко входу")
         wait(2000)
         sampSendChat("/todo В следующий раз будете вести себя лучше!*выкидывая человека..")
         wait(2000)
         sampSendChat("/me ...и закрывая дверь в радиоцентр")
-        wait(2000)
+		wait(2000)
+		sampShowDialog(1000, "Система выдачи выговоров", "Введите id игрока и причину\n19,Нарушение порядка", "Выдать",'Отмена', 1)
 		while sampIsDialogActive(6406) do wait(100) end
         local result, button, list, input = sampHasDialogRespond(6406)
         if input:find('(%d+),(.+)') and button == 1 then
