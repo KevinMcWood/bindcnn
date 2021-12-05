@@ -68,6 +68,10 @@ function main()
                 sampAddChatMessage("Есть обновление! Версия: " .. updateIni.info.vers_text, -1)
                 update_state = true
             end
+			if tonumber(updateIni.info.vers) < script_vers then
+                sampAddChatMessage("Внимание, откат! Версия: " .. updateIni.info.vers_text, -1)
+                update_state = true
+            end
             os.remove(update_path)
         end
     end)
