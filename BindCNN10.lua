@@ -33,8 +33,8 @@ local women = imgui.ImBool(false)
 toggle_status = imgui.ImBool(false)
 toggle_status_1 = imgui.ImBool(false)
 
-local script_vers = 9.1
-local script_vers_text = "9.1.1"
+local script_vers = 7.1
+local script_vers_text = "7.1.1"
 
 local update_url = "https://raw.githubusercontent.com/KevinMcWood/bindcnn/main/update.ini"
 local update_path = getWorkingDirectory() .. "/update.ini"
@@ -250,7 +250,7 @@ function imgui.OnDrawFrame()
         -- Команды
     imgui.SetCursorPos(imgui.ImVec2(5, 220))
     imgui.BeginChild('##3', imgui.ImVec2(200, 175), true)
-    imgui.Text(u8"/bmenu - меню скрипта\n/invv - принятие игрока\n/clearchat - очистить чат\n/vig - выдать выговор(в разработке)")
+    imgui.Text(u8"/bmenu - меню скрипта\n/invv - принятие игрока\n/clearchat - очистить чат\n/vig - выдать выговор(в разработке)\nRalph лох")
     imgui.EndChild()
 		-- Показ чего либо
 	imgui.SetCursorPos(imgui.ImVec2(415, 220))
