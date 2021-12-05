@@ -230,7 +230,7 @@ function imgui.OnDrawFrame()
     imgui.SetNextWindowPos(imgui.ImVec2(sw / 2, sh / 2), imgui.Cond.FirstUseEver, imgui.ImVec2(0.5, 0.5))
       imgui.SetNextWindowSize(imgui.ImVec2(620, 650), imgui.Cond.FirstUseEver)
     imgui.Begin(u8"BindCNN", main_window_state, imgui.WindowFlags.NoResize + imgui.WindowFlags.NoCollapse)
-    imgui.TextColored(imgui.ImVec4(0, 1, 0, 1), u8'Версия: ' .. updateIni.info.vers_text)
+	imgui.TextColored(imgui.ImVec4(0, 1, 0, 1), u8'Версия: ' .. updateIni.info.vers_text)
         -- Основное
     imgui.BeginChild('##1', imgui.ImVec2(200, 175), true)
         imgui.Text(u8"Ваш ник: " ..nick.. "[" ..id.. "]")
@@ -251,7 +251,20 @@ function imgui.OnDrawFrame()
         -- Команды
     imgui.SetCursorPos(imgui.ImVec2(5, 220))
     imgui.BeginChild('##3', imgui.ImVec2(200, 175), true)
-    imgui.Text(u8"/bmenu - меню скрипта\n/invv - принятие игрока")
+    imgui.Text(u8"/bmenu - меню скрипта\n/invv - принятие игрока\n/clearchat - очистить чат")
+    imgui.EndChild()
+		-- Показ чего либо
+	imgui.SetCursorPos(imgui.ImVec2(415, 220))
+    imgui.BeginChild('##6', imgui.ImVec2(200, 175), true)
+    if imgui.Button(u8'Статистика игрока', imgui.ImVec2(150, 30)) then
+		sampSendChat("/stats")
+	end
+	if imgui.Button(u8'Статистика работы', imgui.ImVec2(150, 30)) then
+		sampSendChat("/jobprogress")
+	end
+	if imgui.Button(u8'Паспорт', imgui.ImVec2(150, 30)) then
+		sampSendChat("/showpass " ..id)
+	end
     imgui.EndChild()
         -- Лекции
     imgui.SetCursorPos(imgui.ImVec2(415, 43))
