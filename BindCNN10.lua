@@ -35,8 +35,8 @@ local women = imgui.ImBool(false)
 toggle_status = imgui.ImBool(false)
 toggle_status_1 = imgui.ImBool(false)
 
-local script_vers = 1.4
-local script_vers_text = "1.4"
+local script_vers = 1.5
+local script_vers_text = "1.5"
 
 local update_url = "https://raw.githubusercontent.com/KevinMcWood/bindcnn/main/update.ini"
 local update_path = getWorkingDirectory() .. "/update.ini"
@@ -311,12 +311,14 @@ function imgui.OnDrawFrame()
 		sampSendChat("/showpass " ..id)
 	end
 	if imgui.Button(u8'/gov', imgui.ImVec2(150, 30)) then
+		lua_thread.create(function ()
 		sampSendChat("/gov [CNN LV] Уважаемые жители штата, прошу минуточку внимания..")
 		wait(6000)
 		sampSendChat("/gov [CNN LV] В холле Радиостанции г.Лас-Вентурас проходит собеседование.")
 		wait(6000)
 		sampSendChat("/gov [CNN LV] Ждём всех желающих. При себе иметь: паспорт, мед.карту, пакет лицензий.")
 		wait(6000)
+		end)
 	end
     imgui.EndChild()
         -- Лекции
