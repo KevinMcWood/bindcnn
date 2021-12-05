@@ -35,7 +35,7 @@ local women = imgui.ImBool(false)
 toggle_status = imgui.ImBool(false)
 toggle_status_1 = imgui.ImBool(false)
 
-local script_vers = 1
+local script_vers = 1.1
 local script_vers_text = "1.1"
 
 local update_url = "https://raw.githubusercontent.com/KevinMcWood/bindcnn/main/update.ini"
@@ -56,7 +56,7 @@ function main()
     sampRegisterChatCommand("invv", invv)
     sampRegisterChatCommand("clearchat", clearchat)
     sampRegisterChatCommand("vig", cmd_vig)
-
+	sampRegisterChatCommand("exp", cmd_exp)
 
     imgui.Process = false
 
@@ -87,7 +87,7 @@ function main()
         if update_state then
             downloadUrlToFile(script_url, script_path, function(id, status)
                 if status == dlstatus.STATUS_ENDDOWNLOADDATA then
-                    sampAddChatMessage("Скрипт успешно обновлен!", -1)
+                    sampAddChatMessage("Скрипт успешно обновлен/откачен!", -1)
                     thisScript():reload()
                 end
             end)
@@ -100,25 +100,6 @@ end
 function cmd_bmenu(arg)
     main_window_state.v = not main_window_state.v
     imgui.Process = main_window_state.v
-end
-
-function clearchat(arg)
-    sampAddChatMessage("   ", -1)
-    sampAddChatMessage("   ", -1)
-    sampAddChatMessage("   ", -1)
-    sampAddChatMessage("   ", -1)
-    sampAddChatMessage("   ", -1)
-    sampAddChatMessage("   ", -1)
-    sampAddChatMessage("   ", -1)
-    sampAddChatMessage("   ", -1)
-    sampAddChatMessage("   ", -1)
-    sampAddChatMessage("   ", -1)
-    sampAddChatMessage("   ", -1)
-    sampAddChatMessage("   ", -1)
-    sampAddChatMessage("   ", -1)
-    sampAddChatMessage("   ", -1)
-    sampAddChatMessage("   ", -1)
-    sampAddChatMessage("   ", -1)
 end
 
 function invv(arg)
@@ -226,6 +207,25 @@ function invv(arg)
     end)
 end
 
+function clearchat(arg)
+    sampAddChatMessage("   ", -1)
+    sampAddChatMessage("   ", -1)
+    sampAddChatMessage("   ", -1)
+    sampAddChatMessage("   ", -1)
+    sampAddChatMessage("   ", -1)
+    sampAddChatMessage("   ", -1)
+    sampAddChatMessage("   ", -1)
+    sampAddChatMessage("   ", -1)
+    sampAddChatMessage("   ", -1)
+    sampAddChatMessage("   ", -1)
+    sampAddChatMessage("   ", -1)
+    sampAddChatMessage("   ", -1)
+    sampAddChatMessage("   ", -1)
+    sampAddChatMessage("   ", -1)
+    sampAddChatMessage("   ", -1)
+    sampAddChatMessage("   ", -1)
+end
+
 function cmd_vig(arg)
 	    local _, ped = storeClosestEntities(PLAYER_PED)
     local _, idpl = sampGetPlayerIdByCharHandle(ped)
@@ -240,6 +240,27 @@ function cmd_vig(arg)
         if input:find('(%d+),(.+)') and button == 1 then
             idn, itext = input:match('(%d+),(.+)')
             sampSendChat("/fwarn "..idn..' '..itext)
+        else
+            print('Тест')
+        end
+    end)
+end
+
+function cmd_exp(arg)
+	local _, ped = storeClosestEntities(PLAYER_PED)
+    local _, idpl = sampGetPlayerIdByCharHandle(ped)
+    lua_thread.create(function ()
+        sampSendChat("/me взял человека напротив за шкирку и потащил ко входу")
+        wait(2000)
+        sampSendChat("/todo В следующий раз будете вести себя лучше!*выкидывая человека..")
+        wait(2000)
+        sampSendChat("/me ...и закрывая дверь в радиоцентр")
+        wait(2000)
+		while sampIsDialogActive(6406) do wait(100) end
+        local result, button, list, input = sampHasDialogRespond(6406)
+        if input:find('(%d+),(.+)') and button == 1 then
+            idn, itext = input:match('(%d+),(.+)')
+            sampSendChat("/expel "..idn..' '..itext)
         else
             print('Тест')
         end
@@ -272,7 +293,7 @@ function imgui.OnDrawFrame()
         -- Команды
     imgui.SetCursorPos(imgui.ImVec2(5, 220))
     imgui.BeginChild('##3', imgui.ImVec2(200, 175), true)
-    imgui.Text(u8"/bmenu - меню скрипта\n/invv - принятие игрока\n/clearchat - очистить чат\n/vig - выдать выговор(в разработке)\nRalph лох")
+    imgui.Text(u8"/bmenu - меню скрипта\n/invv - принятие игрока\n/clearchat - очистить чат\n/vig - выдать выговор(в разработке)\n/exp - выгнать человека")
     imgui.EndChild()
 		-- Показ чего либо
 	imgui.SetCursorPos(imgui.ImVec2(415, 220))
