@@ -39,8 +39,8 @@ local women = imgui.ImBool(false)
 toggle_status = imgui.ImBool(false)
 toggle_status_1 = imgui.ImBool(false)
 
-local script_vers = 1.6
-local script_vers_text = "1.6"
+local script_vers = 1.7
+local script_vers_text = "1.7"
 
 local update_url = "https://raw.githubusercontent.com/KevinMcWood/bindcnn/main/update.ini"
 local update_path = getWorkingDirectory() .. "/update.ini"
@@ -64,6 +64,8 @@ function main()
     sampRegisterChatCommand("vig", cmd_vig)
 	sampRegisterChatCommand("unnvig", cmd_unvig)
 	sampRegisterChatCommand("exp", cmd_exp)
+	sampRegisterChatCommand("fmt", cmd_fmt)
+	sampRegisterChatCommand("unfmt", cmd_fmt)
 
     imgui.Process = false
 
@@ -277,6 +279,46 @@ function cmd_exp(arg)
     end)
 end
 
+function cmd_fmt(arg)
+	local _, ped = storeClosestEntities(PLAYER_PED)
+	local _, idpl = sampGetPlayerIdByCharHandle(ped)
+	lua_thread.create(function ()
+	sampSendChat("/me взял из кармана планшет и зашел в базу данных сотрудников...")
+	wait(2000)
+	sampSendChat("/me ...после чего заблокировал доступ к рации у сотрудника")
+	wait(2000)
+	sampShowDialog(1000, "Система выдачи мутов", "Введите id игрока и причину\n19,Неадекват", "Выдать",'Отмена', 1)
+	while sampIsDialogActive(6406) do wait(100) end
+	local result, button, list, input = sampHasDialogRespond(6406)
+	if input:find('(%d+),(.+)') and button == 1 then
+		idn, itext = input:match('(%d+),(.+)')
+		sampSendChat("/fmute "..idn..' '..itext)
+	else
+		print('Тест')
+	end
+	end)
+end
+
+function cmd_unfmt(arg)
+	local _, ped = storeClosestEntities(PLAYER_PED)
+	local _, idpl = sampGetPlayerIdByCharHandle(ped)
+	lua_thread.create(function ()
+	sampSendChat("/me взял из кармана планшет и зашел в базу данных сотрудников...")
+	wait(2000)
+	sampSendChat("/me ...после чего разблокировал доступ к рации у сотрудника")
+	wait(2000)
+	sampShowDialog(1000, "Система выдачи мутов", "Введите id игрока и причину\n19,Неадекват", "Выдать",'Отмена', 1)
+	while sampIsDialogActive(6406) do wait(100) end
+	local result, button, list, input = sampHasDialogRespond(6406)
+	if input:find('(%d+),(.+)') and button == 1 then
+		idn, itext = input:match('(%d+),(.+)')
+		sampSendChat("/funmute "..idn..' '..itext)
+	else
+		print('Тест')
+	end
+end)
+end
+
 function imgui.OnDrawFrame()
 
     imgui.SetNextWindowPos(imgui.ImVec2(sw / 2, sh / 2), imgui.Cond.FirstUseEver, imgui.ImVec2(0.5, 0.5))
@@ -303,7 +345,7 @@ function imgui.OnDrawFrame()
         -- Команды
     imgui.SetCursorPos(imgui.ImVec2(5, 220))
     imgui.BeginChild('##Команды', imgui.ImVec2(200, 175), true)
-    imgui.Text(u8"/bmenu - меню скрипта\n/invv - принятие игрока\n/clearchat - очистить чат\n/vig - выдать выговор\n/unvig - снять выговор( в разр)\n/exp - выгнать человека\n/fmt - выдать мут(в разр)\n/unfmt - снять мут(в разр)")
+    imgui.Text(u8"/bmenu - меню скрипта\n/invv - принятие игрока\n/clearchat - очистить чат\n/vig - выдать выговор\n/unvig - снять выговор( в разр)\n/exp - выгнать человека\n/fmt - выдать мут\n/unfmt - снять мут")
     imgui.EndChild()
 		-- Показ чего либо
 	imgui.SetCursorPos(imgui.ImVec2(415, 220))
