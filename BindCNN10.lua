@@ -21,6 +21,10 @@ update_state = false
 local themes = import "resource/imgui_themes.lua"
 local checked_radio = imgui.ImInt(1)
 
+--local directIni = "moonloader\\resource\\settings.ini"
+--local mainIni = inicfg.load(nil, directIni)
+--local statseIni = inicfg.save(mainIni, directIni)
+
 local idn, itext = -1, ''
 
 local label = 0
@@ -35,8 +39,8 @@ local women = imgui.ImBool(false)
 toggle_status = imgui.ImBool(false)
 toggle_status_1 = imgui.ImBool(false)
 
-local script_vers = 1.5
-local script_vers_text = "1.5"
+local script_vers = 1.6
+local script_vers_text = "1.6"
 
 local update_url = "https://raw.githubusercontent.com/KevinMcWood/bindcnn/main/update.ini"
 local update_path = getWorkingDirectory() .. "/update.ini"
@@ -50,12 +54,15 @@ function main()
 
     health = getCharHealth(PLAYER_PED)
 
-    sampAddChatMessage("Биндер для CNN", main_color)
+    sampAddChatMessage("[BindCNN10] Биндер для CNN", main_color)
+	sampAddChatMessage("[BindCNN10] Автор: Kevin McWood", main_color)
+	sampAddChatMessage("[BindCNN10] Специально для сервера Brainburg", main_color)
 
     sampRegisterChatCommand("bmenu", cmd_bmenu)
     sampRegisterChatCommand("invv", invv)
     sampRegisterChatCommand("clearchat", clearchat)
     sampRegisterChatCommand("vig", cmd_vig)
+	sampRegisterChatCommand("unnvig", cmd_unvig)
 	sampRegisterChatCommand("exp", cmd_exp)
 
     imgui.Process = false
@@ -251,15 +258,15 @@ function cmd_vig(arg)
 end
 
 function cmd_exp(arg)
+	local _, ped = storeClosestEntities(PLAYER_PED)
+    local _, idpl = sampGetPlayerIdByCharHandle(ped)
     lua_thread.create(function ()
-        sampSendChat("/me взял человека напротив за шкирку и потащил ко входу")
+        sampSendChat("/me взял человека за шкирку и повел ко входу")
         wait(2000)
-        sampSendChat("/todo В следующий раз будете вести себя лучше!*выкидывая человека..")
+        sampSendChat("/todo В следующий раз будете вести себя лучше*выкидывая человека из радиоцентра")
         wait(2000)
-        sampSendChat("/me ...и закрывая дверь в радиоцентр")
-		wait(2000)
-		sampShowDialog(1000, "Система выдачи выговоров", "Введите id игрока и причину\n19,Нарушение порядка", "Выдать",'Отмена', 1)
-		while sampIsDialogActive(6406) do wait(100) end
+        sampShowDialog(1000, "Система выпровода игрока", "Введите id игрока и причину\n19,Нарушение порядка", "Выдгнать",'Отмена', 1)
+        while sampIsDialogActive(6406) do wait(100) end
         local result, button, list, input = sampHasDialogRespond(6406)
         if input:find('(%d+),(.+)') and button == 1 then
             idn, itext = input:match('(%d+),(.+)')
@@ -277,7 +284,7 @@ function imgui.OnDrawFrame()
     imgui.Begin(u8"BindCNN", main_window_state, imgui.WindowFlags.NoResize + imgui.WindowFlags.NoCollapse)
 	imgui.TextColored(imgui.ImVec4(0, 1, 0, 1), u8'Версия: ' .. updateIni.info.vers_text)
         -- Основное
-    imgui.BeginChild('##1', imgui.ImVec2(200, 175), true)
+    imgui.BeginChild('##Основное', imgui.ImVec2(200, 175), true)
         imgui.Text(u8"Ваш ник: " ..nick.. "[" ..id.. "]")
         imgui.Checkbox(u8"Женские отыгровки", women)
 		imgui.SameLine()
@@ -286,7 +293,7 @@ function imgui.OnDrawFrame()
     
         -- Темы
     imgui.SetCursorPos(imgui.ImVec2(210, 43))
-    imgui.BeginChild('##2', imgui.ImVec2(200, 175), true)
+    imgui.BeginChild('##Темы', imgui.ImVec2(200, 175), true)
         for i, value in ipairs(themes.colorThemes) do
             if imgui.RadioButton(value, checked_radio, i) then
                 themes.SwitchColorThemes(i)
@@ -295,12 +302,12 @@ function imgui.OnDrawFrame()
     imgui.EndChild()
         -- Команды
     imgui.SetCursorPos(imgui.ImVec2(5, 220))
-    imgui.BeginChild('##3', imgui.ImVec2(200, 175), true)
-    imgui.Text(u8"/bmenu - меню скрипта\n/invv - принятие игрока\n/clearchat - очистить чат\n/vig - выдать выговор(в разработке)\n/exp - выгнать человека")
+    imgui.BeginChild('##Команды', imgui.ImVec2(200, 175), true)
+    imgui.Text(u8"/bmenu - меню скрипта\n/invv - принятие игрока\n/clearchat - очистить чат\n/vig - выдать выговор\n/unvig - снять выговор( в разр)\n/exp - выгнать человека\n/fmt - выдать мут(в разр)\n/unfmt - снять мут(в разр)")
     imgui.EndChild()
 		-- Показ чего либо
 	imgui.SetCursorPos(imgui.ImVec2(415, 220))
-    imgui.BeginChild('##6', imgui.ImVec2(200, 175), true)
+    imgui.BeginChild('##Показ', imgui.ImVec2(200, 175), true)
     if imgui.Button(u8'Статистика игрока', imgui.ImVec2(150, 30)) then
 		sampSendChat("/stats")
 	end
@@ -310,20 +317,13 @@ function imgui.OnDrawFrame()
 	if imgui.Button(u8'Паспорт', imgui.ImVec2(150, 30)) then
 		sampSendChat("/showpass " ..id)
 	end
-	if imgui.Button(u8'/gov', imgui.ImVec2(150, 30)) then
-		lua_thread.create(function ()
-		sampSendChat("/gov [CNN LV] Уважаемые жители штата, прошу минуточку внимания..")
-		wait(6000)
-		sampSendChat("/gov [CNN LV] В холле Радиостанции г.Лас-Вентурас проходит собеседование.")
-		wait(6000)
-		sampSendChat("/gov [CNN LV] Ждём всех желающих. При себе иметь: паспорт, мед.карту, пакет лицензий.")
-		wait(6000)
-		end)
+	if imgui.Button(u8'Лицензии', imgui.ImVec2(150, 30)) then
+		sampSendChat("/showlic " ..id)
 	end
     imgui.EndChild()
         -- Лекции
     imgui.SetCursorPos(imgui.ImVec2(415, 43))
-    imgui.BeginChild('##4', imgui.ImVec2(200, 175), true)
+    imgui.BeginChild('##Лекции', imgui.ImVec2(200, 175), true)
         if imgui.Button(u8'Лекция 1 - Спец.Рация', imgui.ImVec2(150, 30)) then
             lua_thread.create(function ()
                 sampSendChat("/r Здравствуйте, дорогие коллеги!")
@@ -449,7 +449,17 @@ function imgui.OnDrawFrame()
     imgui.EndChild()
 		--Новостные эфиры
 	imgui.SetCursorPos(imgui.ImVec2(210, 220))
-	imgui.BeginChild('##5', imgui.ImVec2(200, 175), true)
+	imgui.BeginChild('##Эфиры', imgui.ImVec2(200, 175), true)
+	if imgui.Button(u8'/gov - СМИ ЛВ', imgui.ImVec2(150, 30)) then
+		lua_thread.create(function ()
+		sampSendChat("/gov [CNN LV] Уважаемые жители штата, прошу минуточку внимания..")
+		wait(6000)
+		sampSendChat("/gov [CNN LV] В холле Радиостанции г.Лас-Вентурас проходит собеседование.")
+		wait(6000)
+		sampSendChat("/gov [CNN LV] Ждём всех желающих. При себе иметь: паспорт, мед.карту, пакет лицензий.")
+		wait(6000)
+		end)
+	end
 	if imgui.Button(u8'Реклама СМИ ЛВ', imgui.ImVec2(150, 30)) then
 		lua_thread.create(function ()
 			sampSendChat("/news •°•°•°•°• Музыкальная заставка Радиоцентра г.Лас-Вентурас •°•°•°•°•")
