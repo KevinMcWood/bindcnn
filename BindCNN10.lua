@@ -9,6 +9,7 @@ local imgui = require "imgui"
 local encoding = require "encoding"
 local fa = require 'fAwesome5' --иконки работают через жопу
 local sampev = require 'lib.samp.events'
+local bNotf, notf = pcall(import, "imgui_notf.lua")
 
 encoding.default = 'CP1251'
 u8 = encoding.UTF8
@@ -72,6 +73,8 @@ local tabs = {
     fa.ICON_FA_SPINNER..u8' Лекции',
     fa.ICON_FA_SPINNER..u8' Новостные эфиры',
 }
+
+
 
 function main()
     if not isSampLoaded() or not isSampfuncsLoaded() then return end
@@ -250,10 +253,13 @@ function ClearChat()
     memory.fill(sampGetChatInfoPtr() + 306, 0x0, 25200)
     memory.write(sampGetChatInfoPtr() + 306, 25562, 4, 0x0)
     memory.write(sampGetChatInfoPtr() + 0x63DA, 1, 1)
+    if bNotf then
+        notf.addNotification(("Вы успешно очистили чат!"), 5, 1)
+    end
 end
 
 function cmd_vig(arg)
-	    local _, ped = storeClosestEntities(PLAYER_PED)
+	local _, ped = storeClosestEntities(PLAYER_PED)
     local _, idpl = sampGetPlayerIdByCharHandle(ped)
     lua_thread.create(function ()
         sampSendChat("/me взял из кармана планшет и зашел в базу данных сотрудников...")
@@ -266,8 +272,9 @@ function cmd_vig(arg)
         if input:find('(%d+),(.+)') and button == 1 then
             idn, itext = input:match('(%d+),(.+)')
             sampSendChat("/fwarn "..idn..' '..itext)
-        else
-            print('Тест')
+        end
+        if bNotf then
+            notf.addNotification(("Выговор успешно выписан!"), 5, 1)
         end
     end)
 end
@@ -286,8 +293,9 @@ function cmd_exp(arg)
         if input:find('(%d+),(.+)') and button == 1 then
             idn, itext = input:match('(%d+),(.+)')
             sampSendChat("/expel "..idn..' '..itext)
-        else
-            print('Тест')
+        end
+        if bNotf then
+            notf.addNotification(("Вы выгнали игрока."), 5, 1)
         end
     end)
 end
@@ -296,19 +304,20 @@ function cmd_fmt(arg)
 	local _, ped = storeClosestEntities(PLAYER_PED)
 	local _, idpl = sampGetPlayerIdByCharHandle(ped)
 	lua_thread.create(function ()
-	sampSendChat("/me взял из кармана планшет и зашел в базу данных сотрудников...")
-	wait(2000)
-	sampSendChat("/me ...после чего заблокировал доступ к рации у сотрудника")
-	wait(2000)
-	sampShowDialog(1000, "Система выдачи мутов", "Введите id игрока и причину\n19,Неадекват", "Выдать",'Отмена', 1)
-	while sampIsDialogActive(6406) do wait(100) end
-	local result, button, list, input = sampHasDialogRespond(6406)
-	if input:find('(%d+),(.+)') and button == 1 then
-		idn, itext = input:match('(%d+),(.+)')
-		sampSendChat("/fmute "..idn..' '..itext)
-	else
-		print('Тест')
-	end
+        sampSendChat("/me взял из кармана планшет и зашел в базу данных сотрудников...")
+        wait(2000)
+        sampSendChat("/me ...после чего заблокировал доступ к рации у сотрудника")
+        wait(2000)
+        sampShowDialog(1000, "Система выдачи мутов", "Введите id игрока и причину\n19,Неадекват", "Выдать",'Отмена', 1)
+        while sampIsDialogActive(6406) do wait(100) end
+        local result, button, list, input = sampHasDialogRespond(6406)
+        if input:find('(%d+),(.+)') and button == 1 then
+            idn, itext = input:match('(%d+),(.+)')
+            sampSendChat("/fmute "..idn..' '..itext)
+        end
+        if bNotf then
+            notf.addNotification(("Вы успешно выдали мут!"), 5, 1)
+        end
 	end)
 end
 
@@ -316,27 +325,28 @@ function cmd_unfmt(arg)
 	local _, ped = storeClosestEntities(PLAYER_PED)
 	local _, idpl = sampGetPlayerIdByCharHandle(ped)
 	lua_thread.create(function ()
-	sampSendChat("/me взял из кармана планшет и зашел в базу данных сотрудников...")
-	wait(2000)
-	sampSendChat("/me ...после чего разблокировал доступ к рации у сотрудника")
-	wait(2000)
-	sampShowDialog(1000, "Система выдачи мутов", "Введите id игрока и причину\n19,Неадекват", "Выдать",'Отмена', 1)
-	while sampIsDialogActive(6406) do wait(100) end
-	local result, button, list, input = sampHasDialogRespond(6406)
-	if input:find('(%d+),(.+)') and button == 1 then
-		idn, itext = input:match('(%d+),(.+)')
-		sampSendChat("/funmute "..idn..' '..itext)
-	else
-		print('Тест')
-	end
-end)
+        sampSendChat("/me взял из кармана планшет и зашел в базу данных сотрудников...")
+        wait(2000)
+        sampSendChat("/me ...после чего разблокировал доступ к рации у сотрудника")
+        wait(2000)
+        sampShowDialog(1000, "Система выдачи мутов", "Введите id игрока и причину\n19,Неадекват", "Выдать",'Отмена', 1)
+        while sampIsDialogActive(6406) do wait(100) end
+        local result, button, list, input = sampHasDialogRespond(6406)
+        if input:find('(%d+),(.+)') and button == 1 then
+            idn, itext = input:match('(%d+),(.+)')
+            sampSendChat("/funmute "..idn..' '..itext)
+        end
+        if bNotf then
+            notf.addNotification(("Вы успешно сняли мут!"), 5, 1)
+        end
+    end)
 end
 
 function imgui.OnDrawFrame()
     local X, Y = getScreenResolution()
-    imgui.SetNextWindowSize(imgui.ImVec2(700, 400), imgui.Cond.FirstUseEver)
+    imgui.SetNextWindowSize(imgui.ImVec2(700, 440), imgui.Cond.FirstUseEver)
     imgui.SetNextWindowPos(imgui.ImVec2(X / 2, Y / 2), imgui.Cond.FirstUseEver, imgui.ImVec2(0.5, 0.5))
-    imgui.Begin('##window', _, imgui.WindowFlags.NoCollapse + imgui.WindowFlags.NoResize + imgui.WindowFlags.NoTitleBar + imgui.WindowFlags.NoScrollbar)
+    imgui.Begin('Binder for Brainburg', main_window_state, imgui.WindowFlags.NoResize + imgui.WindowFlags.NoCollapse)
         imgui.SetCursorPos(imgui.ImVec2(0, 45))
         if imgui.CustomMenu(tabs, tab, imgui.ImVec2(135, 30), _, true) then
             --кнопки зависят от этой барабурды. не трогать
@@ -344,7 +354,7 @@ function imgui.OnDrawFrame()
         imgui.SetCursorPos(imgui.ImVec2(150, 35))
         imgui.BeginChild('##main', imgui.ImVec2(700, 400), true)
             if tab.v == 1 then
-                imgui.Text(u8"Ваш ник: " ..nick.. "[" ..id.. "]")
+                imgui.TextColoredRGB("Ваш ник: " ..nick.. "[" ..id.. "]")
             elseif tab.v == 2 then
                 imgui.Checkbox(u8"Женские отыгровки", women)
                 imgui.SameLine()
@@ -370,7 +380,7 @@ function imgui.OnDrawFrame()
                         themes.SwitchColorThemes(i)
                     end
                 end
-            elseif tab.v == 6 then
+            elseif tab.v == 6 then -- лекции
                 if imgui.Button(u8'Лекция 1 - Спец.Рация', imgui.ImVec2(150, 30)) then
                     lua_thread.create(function ()
                         sampSendChat("/r Здравствуйте, дорогие коллеги!")
@@ -493,7 +503,7 @@ function imgui.OnDrawFrame()
                         wait(2000)
                     end)
                 end
-            elseif tab.v == 7 then
+            elseif tab.v == 7 then -- реклама
                 if imgui.Button(u8'/gov - СМИ ЛВ', imgui.ImVec2(150, 30)) then
                     lua_thread.create(function ()
                     sampSendChat("/gov [CNN LV] Уважаемые жители штата, прошу минуточку внимания..")
@@ -825,6 +835,59 @@ function imgui.OnDrawFrame()
     imgui.End()
 end
 
+--TextColoredRGB
+function imgui.TextColoredRGB(text)
+    local style = imgui.GetStyle()
+    local colors = style.Colors
+    local ImVec4 = imgui.ImVec4
+
+    local explode_argb = function(argb)
+        local a = bit.band(bit.rshift(argb, 24), 0xFF)
+        local r = bit.band(bit.rshift(argb, 16), 0xFF)
+        local g = bit.band(bit.rshift(argb, 8), 0xFF)
+        local b = bit.band(argb, 0xFF)
+        return a, r, g, b
+    end
+
+    local getcolor = function(color)
+        if color:sub(1, 6):upper() == 'SSSSSS' then
+            local r, g, b = colors[1].x, colors[1].y, colors[1].z
+            local a = tonumber(color:sub(7, 8), 16) or colors[1].w * 255
+            return ImVec4(r, g, b, a / 255)
+        end
+        local color = type(color) == 'string' and tonumber(color, 16) or color
+        if type(color) ~= 'number' then return end
+        local r, g, b, a = explode_argb(color)
+        return imgui.ImColor(r, g, b, a):GetVec4()
+    end
+
+    local render_text = function(text_)
+        for w in text_:gmatch('[^\r\n]+') do
+            local text, colors_, m = {}, {}, 1
+            w = w:gsub('{(......)}', '{%1FF}')
+            while w:find('{........}') do
+                local n, k = w:find('{........}')
+                local color = getcolor(w:sub(n + 1, k - 1))
+                if color then
+                    text[#text], text[#text + 1] = w:sub(m, n - 1), w:sub(k + 1, #w)
+                    colors_[#colors_ + 1] = color
+                    m = n
+                end
+                w = w:sub(1, n - 1) .. w:sub(k + 1, #w)
+            end
+            if text[0] then
+                for i = 0, #text do
+                    imgui.TextColored(colors_[i] or colors[1], u8(text[i]))
+                    imgui.SameLine(nil, 0)
+                end
+                imgui.NewLine()
+            else imgui.Text(u8(w)) end
+        end
+    end
+
+    render_text(text)
+end
+
 --Кастомное меню
 function imgui.CustomMenu(labels, selected, size, speed, centering)
     local bool = false
@@ -884,9 +947,21 @@ end
 -- ПРИШЛО ОБЪЯВЛЕНИЕ!
 function sampev.onServerMessage(color, text)
     if text:find("На обработку объявлений пришло сообщение от:") then
-        printStyledString("ПРИШЛО ОБЪЯВЛЕНИЕ!", 500, 2) 
+        printStyledString("NEW ADD", 500, 2) 
     end
 	if text:find("На обрабоку объявлений пришло VIP сообщение от:") then
-        printStyledString("ПРИШЛО ВИП ОБЪЯВЛЕНИЕ!", 500, 2) 
+        printStyledString("MEW VIP ADD", 500, 2) 
     end
+end
+--Уведомления
+function sampev.onDisplayGameText(style, time, text)
+    if bNotf then
+        notf.addNotification(clear(text), time / 1000, 1)
+        return false
+    end
+end
+function clear(text)
+    text = text:gsub('~n~', '\n')
+    text = text:gsub('~%l~', '')
+    return text
 end
