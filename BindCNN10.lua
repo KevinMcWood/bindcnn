@@ -104,7 +104,7 @@ function main()
         if status == dlstatus.STATUS_ENDDOWNLOADDATA then
             updateIni = inicfg.load(nil, update_path)
             if tonumber(updateIni.info.vers) > script_vers then
-                notf.addNotification(("Вышло новое обновление!"), 5, 1)
+                notf.addNotification(("Вышло обновление! Версия: ".. updateIni.info.vers_text), 4, 1)
                 update_state = true
             end
             os.remove(update_path)
