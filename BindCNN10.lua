@@ -3,7 +3,7 @@ script_version('03.12.2021')
 
 require "lib.moonloader"
 local dlstatus = require('moonloader').download_status
-local inicfg = require 'inicfg'
+
 local keys = require "vkeys"
 local imgui = require "imgui"
 local encoding = require "encoding"
@@ -13,21 +13,16 @@ local bNotf, notf = pcall(import, "imgui_notf.lua")
 
 encoding.default = 'CP1251'
 u8 = encoding.UTF8
+
 local rkeys = require 'rkeys'
 local gkey = require 'game.keys'
 imgui.ToggleButton = require('imgui_addons').ToggleButton
-imgui.HotKey = require('imgui_addons').HotKey
 imgui.Spinner = require('imgui_addons').Spinner
 imgui.BufferingBar = require('imgui_addons').BufferingBar
 
 update_state = false
 
 local themes = import "resource/imgui_themes.lua"
-local checked_radio = imgui.ImInt(1)
-
---local directIni = "moonloader\\resource\\settings.ini"
---local mainIni = inicfg.load(nil, directIni)
---local statseIni = inicfg.save(mainIni, directIni)
 
 local idn, itext = -1, ''
 
@@ -36,15 +31,30 @@ local main_color = 0x5A90CE
 local main_color_text = "{5A90CE}"
 local white_color = "{FFFFFF}"
 
+local inicfg = require 'inicfg'
+local directIni = "moonloader\\resource\\settings.ini"
+local mainIni = inicfg.load({
+    config = {
+    jensk = false,
+    yvedoml = false,
+    themesohr = 1,
+    }
+}, directIni)
+if not doesFileExist(directIni) then
+    inicfg.save(mainIni, directIni)
+end
+
 local main_window_state = imgui.ImBool(false)
 local text_buffer = imgui.ImBuffer(256)
 local sw, sh = getScreenResolution()
-local women = imgui.ImBool(false)
+local women = imgui.ImBool(mainIni.config.jensk)
+local yved = imgui.ImBool(mainIni.config.yvedoml)
+local checked_radio = imgui.ImInt(mainIni.config.themesohr)
 toggle_status = imgui.ImBool(false)
 toggle_status_1 = imgui.ImBool(false)
 
-local script_vers = 1.8
-local script_vers_text = "1.8"
+local script_vers = 1.9
+local script_vers_text = "1.9"
 
 local update_url = "https://raw.githubusercontent.com/KevinMcWood/bindcnn/main/update.ini"
 local update_path = getWorkingDirectory() .. "/update.ini"
@@ -70,8 +80,10 @@ local tabs = {
     fa.ICON_FA_FILE_ALT..u8' Команды',
     fa.ICON_FA_SPINNER..u8' Показ',
     fa.ICON_FA_SPINNER..u8' Темы',
+    fa.ICON_FA_SPINNER..u8' Биндер(VR)',
     fa.ICON_FA_SPINNER..u8' Лекции',
     fa.ICON_FA_SPINNER..u8' Новостные эфиры',
+    fa.ICON_FA_SPINNER..u8' Информация о скрипте',
 }
 
 
@@ -79,12 +91,10 @@ local tabs = {
 function main()
     if not isSampLoaded() or not isSampfuncsLoaded() then return end
     while not isSampAvailable() do wait(100) end
-
     health = getCharHealth(PLAYER_PED)
 
     sampAddChatMessage("[BindCNN10] Биндер для CNN", main_color)
 	sampAddChatMessage("[BindCNN10] Автор: Kevin McWood", main_color)
-	sampAddChatMessage("[BindCNN10] Специально для сервера Brainburg", main_color)
 
     sampRegisterChatCommand("bmenu", cmd_bmenu)
     sampRegisterChatCommand("invv", invv)
@@ -98,13 +108,15 @@ function main()
     imgui.Process = false
 
     imgui.SwitchContext()
-    themes.SwitchColorThemes()
+    themes.SwitchColorThemes(mainIni.config.themesohr)
 
     downloadUrlToFile(update_url, update_path, function(id, status)
         if status == dlstatus.STATUS_ENDDOWNLOADDATA then
             updateIni = inicfg.load(nil, update_path)
             if tonumber(updateIni.info.vers) > script_vers then
-                notf.addNotification(("Вышло обновление! Версия: ".. updateIni.info.vers_text), 4, 1)
+                if not yved.v == false then
+                notf.addNotification(("Вышло новое обновление!"), 5, 1)
+                end
                 update_state = true
             end
             os.remove(update_path)
@@ -124,7 +136,9 @@ function main()
         if update_state then
             downloadUrlToFile(script_url, script_path, function(id, status)
                 if status == dlstatus.STATUS_ENDDOWNLOADDATA then
-                    sampAddChatMessage("Скрипт успешно обновлен/откачен!", -1)
+                    if not yved.v == false then
+                    notf.addNotification(("Скрипт успешно обновлен!"), 5, 1)
+                    end
                     thisScript():reload()
                 end
             end)
@@ -253,7 +267,7 @@ function ClearChat()
     memory.fill(sampGetChatInfoPtr() + 306, 0x0, 25200)
     memory.write(sampGetChatInfoPtr() + 306, 25562, 4, 0x0)
     memory.write(sampGetChatInfoPtr() + 0x63DA, 1, 1)
-    if bNotf then
+    if not yved.v == false then
         notf.addNotification(("Вы успешно очистили чат!"), 5, 1)
     end
 end
@@ -273,7 +287,7 @@ function cmd_vig(arg)
             idn, itext = input:match('(%d+),(.+)')
             sampSendChat("/fwarn "..idn..' '..itext)
         end
-        if bNotf then
+        if not yved.v == false then
             notf.addNotification(("Выговор успешно выписан!"), 5, 1)
         end
     end)
@@ -294,7 +308,7 @@ function cmd_exp(arg)
             idn, itext = input:match('(%d+),(.+)')
             sampSendChat("/expel "..idn..' '..itext)
         end
-        if bNotf then
+        if not yved.v == false then
             notf.addNotification(("Вы выгнали игрока."), 5, 1)
         end
     end)
@@ -315,7 +329,7 @@ function cmd_fmt(arg)
             idn, itext = input:match('(%d+),(.+)')
             sampSendChat("/fmute "..idn..' '..itext)
         end
-        if bNotf then
+        if not yved.v == false then
             notf.addNotification(("Вы успешно выдали мут!"), 5, 1)
         end
 	end)
@@ -336,7 +350,7 @@ function cmd_unfmt(arg)
             idn, itext = input:match('(%d+),(.+)')
             sampSendChat("/funmute "..idn..' '..itext)
         end
-        if bNotf then
+        if not yved.v == false then
             notf.addNotification(("Вы успешно сняли мут!"), 5, 1)
         end
     end)
@@ -346,22 +360,31 @@ function imgui.OnDrawFrame()
     local X, Y = getScreenResolution()
     imgui.SetNextWindowSize(imgui.ImVec2(700, 440), imgui.Cond.FirstUseEver)
     imgui.SetNextWindowPos(imgui.ImVec2(X / 2, Y / 2), imgui.Cond.FirstUseEver, imgui.ImVec2(0.5, 0.5))
-    imgui.Begin('Binder for Brainburg', main_window_state, imgui.WindowFlags.NoResize + imgui.WindowFlags.NoCollapse)
+    imgui.Begin(' ', main_window_state, imgui.WindowFlags.NoResize + imgui.WindowFlags.NoCollapse)
         imgui.SetCursorPos(imgui.ImVec2(0, 45))
         if imgui.CustomMenu(tabs, tab, imgui.ImVec2(135, 30), _, true) then
             --кнопки зависят от этой барабурды. не трогать
         end
         imgui.SetCursorPos(imgui.ImVec2(150, 35))
         imgui.BeginChild('##main', imgui.ImVec2(700, 400), true)
-            if tab.v == 1 then
-                imgui.TextColoredRGB("Ваш ник: " ..nick.. "[" ..id.. "]")
-            elseif tab.v == 2 then
-                imgui.Checkbox(u8"Женские отыгровки", women)
+            if tab.v == 1 then --Основное
+                imgui.Text(u8"Ваш ник: " ..nick.. "[" ..id.. "]")
+            elseif tab.v == 2 then -- Настройки
+                if imgui.Checkbox(u8"Женские отыгровки", women) then
+                    mainIni.config.jensk = women.v
+                    inicfg.save(mainIni, directIni)
+                end                
                 imgui.SameLine()
                 imgui.TextQuestion("( ? )",u8"При активации отыгровки будут женскими")
-            elseif tab.v == 3 then
+                if imgui.Checkbox(u8"Уведомления", yved) then
+                    mainIni.config.yvedoml = yved.v
+                    inicfg.save(mainIni, directIni)
+                end 
+                imgui.SameLine()
+                imgui.TextQuestion("( ? )",u8"При активации у Вас не будут высвечиваться уведомления")
+            elseif tab.v == 3 then -- Команды
                 imgui.Text(u8"/bmenu - меню скрипта\n/invv - принятие игрока\n/cc - очистить чат\n/vig - выдать выговор\n/unvig - снять выговор( в разр)\n/exp - выгнать человека\n/fmt - выдать мут\n/unfmt - снять мут")
-            elseif tab.v == 4 then
+            elseif tab.v == 4 then --Кнопки показов
                 if imgui.Button(u8'Статистика игрока', imgui.ImVec2(150, 30)) then
                     sampSendChat("/stats")
                 end
@@ -374,13 +397,17 @@ function imgui.OnDrawFrame()
                 if imgui.Button(u8'Лицензии', imgui.ImVec2(150, 30)) then
                     sampSendChat("/showlic " ..id)
                 end
-            elseif tab.v == 5 then
-                for i, value in ipairs(themes.colorThemes) do
+            elseif tab.v == 5 then -- темы
+                for i, value in ipairs(themes.colorThemes, mainIni.config.themesohr) do
                     if imgui.RadioButton(value, checked_radio, i) then
+                        mainIni.config.themesohr = checked_radio.v
+                        inicfg.save(mainIni, directIni)
                         themes.SwitchColorThemes(i)
                     end
                 end
-            elseif tab.v == 6 then -- лекции
+            elseif tab.v == 6 then -- бинд
+                imgui.Text(u8'ss')
+            elseif tab.v == 7 then -- лекции
                 if imgui.Button(u8'Лекция 1 - Спец.Рация', imgui.ImVec2(150, 30)) then
                     lua_thread.create(function ()
                         sampSendChat("/r Здравствуйте, дорогие коллеги!")
@@ -503,7 +530,7 @@ function imgui.OnDrawFrame()
                         wait(2000)
                     end)
                 end
-            elseif tab.v == 7 then -- реклама
+            elseif tab.v == 8 then -- реклама
                 if imgui.Button(u8'/gov - СМИ ЛВ', imgui.ImVec2(150, 30)) then
                     lua_thread.create(function ()
                     sampSendChat("/gov [CNN LV] Уважаемые жители штата, прошу минуточку внимания..")
@@ -830,62 +857,12 @@ function imgui.OnDrawFrame()
                         wait(6000)
                     end)
                 end
+                elseif tab.v == 8 then -- инфа о скрипте
+                    imgui.Text(u8'Версия скрипта: ' ..script_vers)
+                    imgui.Text(u8'Автор скрипта: Kevin_McWood')
             end
         imgui.EndChild()
     imgui.End()
-end
-
---TextColoredRGB
-function imgui.TextColoredRGB(text)
-    local style = imgui.GetStyle()
-    local colors = style.Colors
-    local ImVec4 = imgui.ImVec4
-
-    local explode_argb = function(argb)
-        local a = bit.band(bit.rshift(argb, 24), 0xFF)
-        local r = bit.band(bit.rshift(argb, 16), 0xFF)
-        local g = bit.band(bit.rshift(argb, 8), 0xFF)
-        local b = bit.band(argb, 0xFF)
-        return a, r, g, b
-    end
-
-    local getcolor = function(color)
-        if color:sub(1, 6):upper() == 'SSSSSS' then
-            local r, g, b = colors[1].x, colors[1].y, colors[1].z
-            local a = tonumber(color:sub(7, 8), 16) or colors[1].w * 255
-            return ImVec4(r, g, b, a / 255)
-        end
-        local color = type(color) == 'string' and tonumber(color, 16) or color
-        if type(color) ~= 'number' then return end
-        local r, g, b, a = explode_argb(color)
-        return imgui.ImColor(r, g, b, a):GetVec4()
-    end
-
-    local render_text = function(text_)
-        for w in text_:gmatch('[^\r\n]+') do
-            local text, colors_, m = {}, {}, 1
-            w = w:gsub('{(......)}', '{%1FF}')
-            while w:find('{........}') do
-                local n, k = w:find('{........}')
-                local color = getcolor(w:sub(n + 1, k - 1))
-                if color then
-                    text[#text], text[#text + 1] = w:sub(m, n - 1), w:sub(k + 1, #w)
-                    colors_[#colors_ + 1] = color
-                    m = n
-                end
-                w = w:sub(1, n - 1) .. w:sub(k + 1, #w)
-            end
-            if text[0] then
-                for i = 0, #text do
-                    imgui.TextColored(colors_[i] or colors[1], u8(text[i]))
-                    imgui.SameLine(nil, 0)
-                end
-                imgui.NewLine()
-            else imgui.Text(u8(w)) end
-        end
-    end
-
-    render_text(text)
 end
 
 --Кастомное меню
@@ -952,16 +929,4 @@ function sampev.onServerMessage(color, text)
 	if text:find("На обрабоку объявлений пришло VIP сообщение от:") then
         printStyledString("MEW VIP ADD", 500, 2) 
     end
-end
---Уведомления
-function sampev.onDisplayGameText(style, time, text)
-    if bNotf then
-        notf.addNotification(clear(text), time / 1000, 1)
-        return false
-    end
-end
-function clear(text)
-    text = text:gsub('~n~', '\n')
-    text = text:gsub('~%l~', '')
-    return text
 end
